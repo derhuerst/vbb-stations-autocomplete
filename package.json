@@ -1,0 +1,33 @@
+{
+	"name": "vbb-stations-autocomplete",
+	"description": "JavaScript autocompletion for all stations of the Berlin & Brandenburg public transport service (VBB).",
+	"version": "0.1.0",
+	"main": "./src/index",
+	"keywords": [
+		"vbb",
+		"stations",
+		"autocomplete",
+		"berlin",
+		"brandenburg",
+		"public transport",
+		"gtfs",
+		"open data",
+		"json",
+		"javascript"
+	],
+	"author": {
+		"name": "Jannis R",
+		"email": "mail@jannisr.de",
+		"url": "http://jannisr.de"
+	},
+	"homepage": "https://github.com/derhuerst/vbb-stations-autocomplete",
+	"repository": "git://github.com/derhuerst/vbb-stations-autocomplete.git",
+	"bugs": "https://github.com/derhuerst/vbb-stations-autocomplete/issues",
+	"license": "MIT",
+	"dependencies": {
+		"vbb-static":	"^0.1.2"
+	},
+	"directories": {
+		"lib":	"./src"
+	}
+}
