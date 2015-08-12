@@ -11,7 +11,7 @@
 				"src",
 				"node_modules"
 			],
-			"name": "vbb-static",
+			"name": "vbb-stations-autocomplete",
 			"path": "."
 		},
 		{

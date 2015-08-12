@@ -7,5 +7,5 @@ npm-debug.log
 
 .editorconfig
 .gitignore
-vbb-static.sublime-project
-vbb-static.sublime-workspace
+vbb-stations-autocomplete.sublime-project
+vbb-stations-autocomplete.sublime-workspace
