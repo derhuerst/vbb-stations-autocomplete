@@ -5,6 +5,7 @@ Thumbs.db
 node_modules
 npm-debug.log
 
+data/*.json
 .editorconfig
 .gitignore
 vbb-stations-autocomplete.sublime-project
