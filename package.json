@@ -1,6 +1,6 @@
 {
 	"name": "vbb-stations-autocomplete",
-	"description": "JavaScript autocompletion for all stations of the Berlin & Brandenburg public transport service (VBB).",
+	"description": "Stations fuzzy-search for the VBB API client.",
 	"version": "0.1.0",
 	"main": "./src/index",
 	"keywords": [
