@@ -1,7 +1,7 @@
 {
 	"name": "vbb-stations-autocomplete",
 	"description": "Stations fuzzy-search for the VBB API client.",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"main": "./src/index",
 	"keywords": [
 		"vbb",
