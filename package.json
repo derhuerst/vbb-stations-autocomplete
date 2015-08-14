@@ -26,7 +26,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"vbb-static":	"^0.2.0",
-		"vbb-util":		"^0.2.0",
+		"vbb-util":		"^0.3.0",
 		"fuse.js":		"^1.2.2"
 	},
 	"directories": {
