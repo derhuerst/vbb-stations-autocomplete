@@ -1,8 +1,15 @@
 {
 	"name": "vbb-stations-autocomplete",
-	"description": "Stations fuzzy-search for the VBB API client.",
-	"version": "0.1.1",
-	"main": "./src/index",
+	"description": "Stations search for the VBB API client.",
+	"license": "MIT",
+	"author": {
+		"name": "Jannis R",
+		"email": "mail@jannisr.de",
+		"url": "http://jannisr.de"
+	},
+	"homepage": "https://github.com/derhuerst/vbb-stations-autocomplete",
+	"repository": "git://github.com/derhuerst/vbb-stations-autocomplete.git",
+	"bugs": "https://github.com/derhuerst/vbb-stations-autocomplete/issues",
 	"keywords": [
 		"vbb",
 		"stations",
@@ -15,10 +22,8 @@
 		"json",
 		"javascript"
 	],
-	"author": {
-		"name": "Jannis R",
-		"email": "mail@jannisr.de",
-		"url": "http://jannisr.de"
+	"version": "0.1.1",
+	"main": "./src/index.js",
 	"devDependencies": {
 		"coffee-script":	"^1.9.3",
 		"search-index":		"^0.6.0",
@@ -26,17 +31,13 @@
 		"vbb-util":			"^0.5.1",
 		"q":				"^1.4.1"
 	},
-	"homepage": "https://github.com/derhuerst/vbb-stations-autocomplete",
-	"repository": "git://github.com/derhuerst/vbb-stations-autocomplete.git",
-	"bugs": "https://github.com/derhuerst/vbb-stations-autocomplete/issues",
-	"license": "MIT",
 	"dependencies": {
 		"search-index":		"^0.6.0",
 		"vbb-util":			"^0.5.1",
 		"q":				"^1.4.1"
 	},
 	"directories": {
-		"lib":	"./src"
+		"src":	"./src"
 	},
 	"scripts": {
 		"build":	"./build/index.sh"
