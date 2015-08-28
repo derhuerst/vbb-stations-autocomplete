@@ -19,6 +19,12 @@
 		"name": "Jannis R",
 		"email": "mail@jannisr.de",
 		"url": "http://jannisr.de"
+	"devDependencies": {
+		"coffee-script":	"^1.9.3",
+		"search-index":		"^0.6.0",
+		"vbb-static":		"^0.4.0",
+		"vbb-util":			"^0.5.1",
+		"q":				"^1.4.1"
 	},
 	"homepage": "https://github.com/derhuerst/vbb-stations-autocomplete",
 	"repository": "git://github.com/derhuerst/vbb-stations-autocomplete.git",
@@ -33,6 +39,6 @@
 		"lib":	"./src"
 	},
 	"scripts": {
-		"install":	"./install/index"
+		"build":	"./build/index.sh"
 	}
 }
