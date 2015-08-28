@@ -25,9 +25,9 @@
 	"bugs": "https://github.com/derhuerst/vbb-stations-autocomplete/issues",
 	"license": "MIT",
 	"dependencies": {
-		"vbb-static":	"^0.2.0",
-		"vbb-util":		"^0.3.0",
-		"fuse.js":		"^1.2.2"
+		"search-index":		"^0.6.0",
+		"vbb-util":			"^0.5.1",
+		"q":				"^1.4.1"
 	},
 	"directories": {
 		"lib":	"./src"

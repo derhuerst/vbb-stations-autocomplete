@@ -1,9 +1,7 @@
 var path =			require('path');
-var Index =			require('fuse.js');
-
-var index =			require('../data/index.json');
-var stations =		require('vbb-static/stations');
+var Index =			require('search-index');
 var util =			require('vbb-util');
+var Q =				require('q');
 
 
 
@@ -16,13 +14,9 @@ module.exports = {
 	index:		null,
 
 	init: function () {
-		this.index = new Index(index, {
-			keys:			[ 'keys' ],
-			shouldSort:		true,
-			threshold:		0.2,
-			sortFn: function (a, b) {
-				return b.item.weight - a.item.weight;
-			}
+		this.index = Index({
+			deletable:		false,
+			indexPath:		path.join(__dirname, '../data.leveldb')
 		});
 
 		return this;
@@ -31,13 +25,30 @@ module.exports = {
 
 
 	suggest: function (query, limit) {
-		return this.index.search(this._clean(query)).slice(0, limit || 6);
-	},
+		var deferred = Q.defer();
 
+		// todo: is there a difference between "phrase search" and "multi-word search"?
+		// see https://github.com/fergiemcdowall/search-index/blob/master/doc/search.md
+		query = util.locations.stations.tokenize(query).split(' ');
+		results = [];
 
+		this.index.search({
+			query: {
+				keys: query
+			},
+			pageSize: limit || 8
+		}, function (err, result) {
+			if (err) return deferred.reject(err);
+			for (var i = 0; i < result.hits.length; i++) {
+				results.push(result.hits[i].document);
+			}
+			deferred.resolve(results);
+		});
+		// todo: sort results?
+		// see https://github.com/fergiemcdowall/search-index/blob/master/doc/search.md
 
-	// clean search results
-	_clean: util.locations.stations.tokenize
+		return deferred.promise;
+	}
 
 
 
