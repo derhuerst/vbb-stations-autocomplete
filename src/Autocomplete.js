@@ -86,6 +86,20 @@ module.exports = {
 					}
 				}
 			}
+
+			var id, relevance;
+
+			// accumulate results
+			this._results = new PriorityQueue('relevance', limit || 8);
+			for (id in this._ids) {
+				relevance = this._ids[id];
+				if (relevance === 0) continue;
+				id = parseInt(id);
+				this._results.add({
+					id:			id,
+					name:		this.stations[id].n,
+					relevance:	relevance
+				});
 			}
 			return this._results.data;
 		});
