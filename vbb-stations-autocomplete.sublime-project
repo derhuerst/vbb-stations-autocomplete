@@ -9,6 +9,7 @@
 			"folder_exclude_patterns":
 			[
 				"build",
+				"data",
 				"src",
 				"node_modules"
 			],
@@ -22,6 +23,10 @@
 		{
 			"name": "build",
 			"path": "build"
+		},
+		{
+			"name": "data",
+			"path": "data"
 		}
 	],
 	"settings":

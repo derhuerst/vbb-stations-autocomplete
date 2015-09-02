@@ -1,6 +1,6 @@
 {
 	"name": "vbb-stations-autocomplete",
-	"description": "Stations search for the VBB API client.",
+	"description": "Search for stations in the Berlin Brandenburg public transport service (VBB).",
 	"license": "MIT",
 	"author": {
 		"name": "Jannis R",
@@ -14,10 +14,11 @@
 		"vbb",
 		"stations",
 		"autocomplete",
+		"index",
+		"search",
 		"berlin",
 		"brandenburg",
 		"public transport",
-		"gtfs",
 		"open data",
 		"json",
 		"javascript"
