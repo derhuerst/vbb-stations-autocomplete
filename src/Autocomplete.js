@@ -92,9 +92,10 @@ module.exports = {
 			// accumulate results
 			this._results = new PriorityQueue('relevance', limit || 8);
 			for (id in this._ids) {
-				relevance = this._ids[id];
+				relevance = this._ids[id] * 3;
 				if (relevance === 0) continue;
 				id = parseInt(id);
+				relevance += parts.length / this.stations[id].k
 				this._results.add({
 					id:			id,
 					name:		this.stations[id].n,
@@ -116,7 +117,7 @@ module.exports = {
 		if (this.keys[part]) {
 			results.push({
 				t:	part,   // token
-				w:	1    // weighting
+				w:	2    // weighting
 			});
 			count++;
 		}
