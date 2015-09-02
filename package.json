@@ -27,15 +27,11 @@
 	"main": "./src/index.js",
 	"devDependencies": {
 		"coffee-script":	"^1.9.3",
-		"search-index":		"^0.6.0",
-		"vbb-static":		"^0.4.0",
-		"vbb-util":			"^0.5.1",
-		"q":				"^1.4.1"
+		"vbb-static":		"^0.7.0"
 	},
 	"dependencies": {
-		"search-index":		"^0.6.0",
-		"vbb-util":			"^0.5.1",
-		"q":				"^1.4.1"
+		"bluebird":			"^2.9.34",
+		"vbb-util":			"^0.5.1"
 	},
 	"directories": {
 		"src":	"./src"
