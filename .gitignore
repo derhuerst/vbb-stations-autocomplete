@@ -5,5 +5,5 @@ Thumbs.db
 node_modules
 npm-debug.log
 
-data.leveldb
+data/*.json
 vbb-stations-autocomplete.sublime-workspace
