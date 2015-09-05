@@ -14,14 +14,14 @@ set = sets.stations('all')
 set.on 'error', (err) ->
 	console.error err.stack
 
-keys = {}
+tokens = {}
 set.on 'data', (data) ->
 	splitted = util.locations.stations.tokenize(data.name).split ' '
 	for key in splitted
-		if not keys[key] then keys[key] = []
-		keys[key].push data.id
+		if not tokens[key] then tokens[key] = []
+		tokens[key].push data.id
 
 set.on 'end', () ->
-	fs.writeFile path.join(base, 'keys.json'), JSON.stringify(keys), (err) ->
+	fs.writeFile path.join(base, 'tokens.json'), JSON.stringify(tokens), (err) ->
 		if err then console.error err.stack
-		else console.log "Wrote to data/keys.json."
+		else console.log "Wrote to data/tokens.json."
