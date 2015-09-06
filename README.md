@@ -30,13 +30,15 @@ returns a [promise that will resolve](http://documentup.com/kriskowal/q/#tutoria
 ```javascript
 [
 	{
-		id: 9009105,
-		name: 'Seestr./Amrumer Str. (Berlin)',
-		relevance: 2.821428571428571
-	}, {
 		id: 9009101,
 		name: 'U Amrumer Str. (Berlin)',
-		relevance: 2.821428571428571
+		weight: 10125,
+		relevance: 6
+	}, {
+		id: 9009272,
+		name: 'U Osloer Str. (Berlin) [Bus Tromsöer Str.]',
+		weight: 3075,
+		relevance: 6
 	}
 ]
 ```
