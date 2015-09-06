@@ -82,13 +82,13 @@ module.exports = {
 				});
 			}
 
-			// remove relevance for old `word`s
+			// subtract match for old `word`s
 			for (i in this._last) {
 				if (query[i] === this._last[i]) continue;
 				this._removeRelevanceByTokens(this._last[i].tokens);
 			}
 
-			// add relevance for new `word`s
+			// add match for new `word`s
 			for (i in query) {
 				if (query[i] === this._last[i]) continue;
 				this._addRelevanceByTokens(query[i].tokens);
@@ -107,22 +107,23 @@ module.exports = {
 
 		if (this.tokens[word])   // look for an exact match
 			return [{
-				t:	word,   // `t` means token
-				r:	2   // `r` means relevance
+				token:	word,
+				relevance:	2
 			}];
 
+   		// look for matches beginning with `word`
 		wLength = word.length;
 		for (token in this.tokens) {
 			if (token.length > wLength && word === token.slice(0, wLength))
 				_results.add({
-					t:	token,   // `t` means token
-					r:	wLength / token.length   // `r` means relevance
+					token:	token,
+					relevance:	wLength / token.length
 				});
 		}
 		return _results.data;
 	},
 
-	_sortTokens: hifo.highest('r'),
+	_sortTokens: hifo.highest('relevance'),
 
 
 
@@ -130,10 +131,10 @@ module.exports = {
 	_addRelevanceByTokens: function (tokens) {
 		var i, token, j, id;
 		for (i in tokens) {
-			token = tokens[i].t;
+			token = tokens[i].token;
 			for (j in this.tokens[token]) {
 				station = this.stations[this.tokens[token][j]];
-				station.relevance += tokens[i].r;
+				station.relevance += tokens[i].relevance;
 				this._results.add(station);
 			}
 		}
@@ -142,10 +143,10 @@ module.exports = {
 	_removeRelevanceByTokens: function (tokens) {
 		var i, token, j, station;
 		for (i in tokens) {
-			token = tokens[i].t;
+			token = tokens[i].token;
 			for (j in this.tokens[token]) {
 				station = this.stations[this.tokens[token][j]];
-				station.relevance -= tokens[i].r;
+				station.relevance -= tokens[i].relevance;
 				this._results.add(station);
 			}
 		}
