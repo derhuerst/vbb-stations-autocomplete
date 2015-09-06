@@ -2,156 +2,154 @@ var path =			require('path');
 var Bluebird =		require('bluebird');
 var fs =			require('fs');
 Bluebird.promisifyAll(fs);
+var hifo =			require('hifo');
 
-var PriorityQueue =	require('./PriorityQueue');
-var util =			require('vbb-util');
-
-
+var tokenize =		require('vbb-util').locations.stations.tokenize;
 
 
+
+
+
+var base = path.join(__dirname, '..', 'data');
 
 module.exports = {
 
 
 
-	stations:	null,   // the list of stations
-	keys:		null,   // a lookup table
-	ready:		null,   // resolves once `stations` and `keys` are ready
+	stations:	null,   // An object of stations with the keys being stringified ids. See `data/stations.json`.
+	tokens:		null,   // For each `token`, there is an `Array` of station ids. See `data/tokens.json`.
+	ready:		null,   // Resolves once `stations` and `keys` are ready.
 
-	// A `Search` instance stores the previous search for better performance. So if one of the tokens changes because the user continues typing it, the results for the other tokens don't have to be recomputed.
-	_tokens:	null,   // the weighting for each token that we added to the results, grouped by query part
-	_ids:		null,   // the sum of weightings for each result
-	_results:	null,   // a limited priority queue of results
+	// The last query. Looks like this:
+	// [ {
+	//     word: 'sbahn',
+	//     tokens: [
+	//         {t: 'sbahn', r: 1 }
+	//     ]
+	// }, {
+	//     word: 'weste'
+	//     tokens: [
+	//         {t: 'westend', r: 5/7 },
+	//         {t: 'westewitz', r: 5/9 },
+	//         {t: 'westendallee', r: 5/12 }
+	//     ]
+	// } ]
+	_last:		null,
+	_results:	null,   // A `hifo` instance that stores the highest values passed in.
 
 
 
 	init: function () {
-		var base, ready;
-
 		// load JSON files
-		var base = path.join(__dirname, '..', 'data');
 		var ready = Bluebird.defer();
 		this.ready = ready.promise.bind(this);
 
 		fs.readFileAsync(path.join(base, 'stations.json'))
-		.bind(this)
-		.then(function (stations) {
+		.bind(this).then(function (stations) {
 			this.stations = JSON.parse(stations);
-			if (this.keys) ready.resolve(true);
+			if (this.tokens) ready.resolve(true);
 		});
-		fs.readFileAsync(path.join(base, 'keys.json'))
-		.bind(this)
-		.then(function (keys) {
-			this.keys = JSON.parse(keys);
+
+		fs.readFileAsync(path.join(base, 'tokens.json'))
+		.bind(this).then(function (tokens) {
+			this.tokens = JSON.parse(tokens);
 			if (this.stations) ready.resolve(true);
 		});
 
-		this._tokens = {};
-		this._ids = {};
+		this._last = [];
+		this._results = hifo(this._sortStations, 5);
 
 		return this;
 	},
 
+	_sortStations: hifo.highest('r', 'w'),   // `r` means relevance, `w` means weight
 
 
-	suggest: function (query, limit) {
+
+	suggest: function (query) {
 		return this.ready.then(function () {
-			var i, j, parts, part, tokens, token, matches;
+			var words, i;
 
-			parts = util.locations.stations.tokenize(query).split(' ');
+			words = tokenize(query).split(' ');
+			query = [];
 
-			// remove old tokens
-			for (part in this._tokens) {
-				if (parts.indexOf(part) < 0) {
-					tokens = this._tokens[part];
-					for (token in tokens) {
-						weighting = tokens[token];
-						this._weight(this.keys[token], -weighting);
-						delete tokens[token];
-					}
-				}
-			}
-
-			// apply new tokens
-			for (i in parts) {
-				part = parts[i];
-				if (!this._tokens[part]) {
-					tokens = this._tokens[part] = {};
-					matches = this._match(part);
-					for (j in matches) {
-						token = matches[j].t;
-						weighting = matches[j].w;
-						this._weight(this.keys[token], weighting);
-						tokens[token] = weighting;
-					}
-				}
-			}
-
-			var id, relevance;
-
-			// accumulate results
-			this._results = new PriorityQueue('relevance', limit || 8);
-			for (id in this._ids) {
-				relevance = this._ids[id] * 3;
-				if (relevance === 0) continue;
-				id = parseInt(id);
-				relevance += parts.length / this.stations[id].k
-				this._results.add({
-					id:			id,
-					name:		this.stations[id].n,
-					relevance:	relevance
+			for (i in words) {
+				if (this._last[i] && this._last[i].word === words[i])
+					query.push(this._last[i]);
+				else query.push({
+					word:	words[i],
+					tokens: this._tokensByWord(words[i])
 				});
 			}
+
+			// remove relevance for old `word`s
+			for (i in this._last) {
+				if (query[i] === this._last[i]) continue;
+				this._removeRelevanceByTokens(this._last[i].tokens);
+			}
+
+			// add relevance for new `word`s
+			for (i in query) {
+				if (query[i] === this._last[i]) continue;
+				this._addRelevanceByTokens(query[i].tokens);
+			}
+
+			this._last = query;
 			return this._results.data;
 		});
 	},
 
 
 
-	_match: function (part, limit) {
-		limit = limit || 3;
-		var results = [];
-		var count = 0;
+	_tokensByWord: function (word) {
+		var _results, wLength, token;
+		_results = hifo(this._sortTokens, 3);
 
-		// look for an exact match
-		if (this.keys[part]) {
-			results.push({
-				t:	part,   // token
-				w:	2    // weighting
-			});
-			count++;
-		}
+		if (this.tokens[word])   // look for an exact match
+			return [{
+				t:	word,   // `t` means token
+				r:	2   // `r` means relevance
+			}];
 
-		var pLength, token, tLength;
-
-		// look for matches beginning with `part`
-		pLength = part.length;
-		for (token in this.keys) {
-			if (count >= limit) break;
-			tLength = token.length;
-			if (tLength > pLength && part === token.slice(0, pLength)) {
-				results.push({
-					t:	token,   // token
-					w:	pLength / tLength   // weighting
+		wLength = word.length;
+		for (token in this.tokens) {
+			if (token.length > wLength && word === token.slice(0, wLength))
+				_results.add({
+					t:	token,   // `t` means token
+					r:	wLength / token.length   // `r` means relevance
 				});
-				count++;
-			}
 		}
-
-		return results.sort(function (a, b) {
-			return b.d - a.d;
-		});
+		return _results.data;
 	},
 
+	_sortTokens: hifo.highest('r'),
 
 
-	_weight: function (ids, delta) {
-		for (i in ids) {
-			id = ids[i] + '';
-			if (this._ids[id]) this._ids[id] += delta;
-			else this._ids[id] = delta;
+
+	// todo: unite those two methods somehow
+	_addRelevanceByTokens: function (tokens) {
+		var i, token, j, id;
+		for (i in tokens) {
+			token = tokens[i].t;
+			for (j in this.tokens[token]) {
+				station = this.stations[this.tokens[token][j]];
+				station.r += tokens[i].r;
+				this._results.add(station);
+			}
 		}
-	}
+	},
+
+	_removeRelevanceByTokens: function (tokens) {
+		var i, token, j, station;
+		for (i in tokens) {
+			token = tokens[i].t;
+			for (j in this.tokens[token]) {
+				station = this.stations[this.tokens[token][j]];
+				station.r -= tokens[i].r;
+				this._results.add(station);
+			}
+		}
+	},
 
 
 

@@ -31,7 +31,8 @@
 	},
 	"dependencies": {
 		"bluebird":			"^2.9.34",
-		"vbb-util":			"^0.5.1"
+		"vbb-util":			"^0.5.1",
+		"hifo":				"^0.3.2"
 	},
 	"directories": {
 		"src":	"./src"

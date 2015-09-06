@@ -20,6 +20,7 @@ set.on 'data', (data) ->
 		n:	data.name
 		k:	util.locations.stations.tokenize(data.name).split(' ').length
 		w:	data.weight
+		r:	0
 
 set.on 'end', () ->
 	fs.writeFile path.join(base, 'stations.json'), JSON.stringify(stations), (err) ->
