@@ -39,7 +39,7 @@ module.exports = {
 
 
 
-	init: function () {
+	init: function (limit) {
 		// load JSON files
 		var ready = Bluebird.defer();
 		this.ready = ready.promise.bind(this);
@@ -57,7 +57,7 @@ module.exports = {
 		});
 
 		this._last = [];
-		this._results = hifo(this._sortStations, 5);
+		this._results = hifo(this._sortStations, limit || 6);
 
 		return this;
 	},

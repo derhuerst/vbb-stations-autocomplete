@@ -18,11 +18,11 @@ npm install vbb-stations-autocomplete
 ## Usage
 
 ```javascript
-var autocomplete = require('vbb-stations-autocomplete')();
+var autocomplete = require('vbb-stations-autocomplete')(2);   // limit by 2
 ```
 
 ```javascript
-stations.suggest('U Amrumer Str', 2);   // limit by 2
+stations.suggest('U Amrumer Str');
 ```
 
 returns a [promise that will resolve](http://documentup.com/kriskowal/q/#tutorial) with

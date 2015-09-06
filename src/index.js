@@ -4,9 +4,9 @@ var Autocomplete =	require('./Autocomplete');
 
 
 
-var factory = module.exports = function () {
+var factory = module.exports = function (limit) {
 	var instance = Object.create(Autocomplete);
-	instance.init();
+	instance.init(limit);
 	return instance;
 };
 
