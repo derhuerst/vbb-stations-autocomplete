@@ -17,6 +17,7 @@ set.on 'error', (err) ->
 stations = {}
 set.on 'data', (data) ->
 	stations['' + data.id] =
+		id:			data.id
 		name:		data.name
 		weight:		data.weight
 		relevance:	0
