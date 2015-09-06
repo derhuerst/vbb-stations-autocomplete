@@ -62,7 +62,7 @@ module.exports = {
 		return this;
 	},
 
-	_sortStations: hifo.highest('r', 'w'),   // `r` means relevance, `w` means weight
+	_sortStations: hifo.highest('relevance', 'weight'),
 
 
 
@@ -133,7 +133,7 @@ module.exports = {
 			token = tokens[i].t;
 			for (j in this.tokens[token]) {
 				station = this.stations[this.tokens[token][j]];
-				station.r += tokens[i].r;
+				station.relevance += tokens[i].r;
 				this._results.add(station);
 			}
 		}
@@ -145,7 +145,7 @@ module.exports = {
 			token = tokens[i].t;
 			for (j in this.tokens[token]) {
 				station = this.stations[this.tokens[token][j]];
-				station.r -= tokens[i].r;
+				station.relevance -= tokens[i].r;
 				this._results.add(station);
 			}
 		}
