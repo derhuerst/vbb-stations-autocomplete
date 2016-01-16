@@ -25,14 +25,14 @@
 	],
 	"version": "0.4.2",
 	"main": "./src/index.js",
-	"devDependencies": {
-		"coffee-script":	"^1.9.3",
-		"vbb-static":		"^0.7.0"
-	},
 	"dependencies": {
-		"bluebird":			"^2.9.34",
-		"vbb-util":			"^0.6.1",
-		"hifo":				"^0.3.2"
+		"bluebird":			"^2.10.2",
+		"vbb-util":			"^0.8.0",
+		"hifo":				"^0.5.0"
+	},
+	"devDependencies": {
+		"coffee-script":	"^1.10.0",
+		"vbb-static":		"^0.8.0"
 	},
 	"directories": {
 		"src":	"./src"
