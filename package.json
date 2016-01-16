@@ -1,7 +1,7 @@
 {
 	"name": "vbb-stations-autocomplete",
 	"description": "Search for stations in the Berlin Brandenburg public transport service (VBB).",
-	"license": "MIT",
+	"license": "ISC",
 	"author": {
 		"name": "Jannis R",
 		"email": "mail@jannisr.de",
