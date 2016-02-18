@@ -1,13 +1,17 @@
-var Autocomplete =	require('./Autocomplete');
+'use strict'
+
+const Autocomplete = require('./Autocomplete')
 
 
 
 
 
-var factory = module.exports = function (limit) {
-	var instance = Object.create(Autocomplete);
-	instance.init(limit);
-	return instance;
-};
+const factory = function (limit) {
+	let instance = Object.create(Autocomplete)
+	instance.init(limit)
+	return instance
+}
 
-factory.Autocomplete = Autocomplete;
+factory.Autocomplete = Autocomplete
+
+module.exports = factory
