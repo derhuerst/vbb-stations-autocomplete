@@ -1,43 +1,24 @@
 {
-	"name": "vbb-stations-autocomplete",
-	"description": "Search for stations in the Berlin Brandenburg public transport service (VBB).",
-	"license": "ISC",
-	"author": {
-		"name": "Jannis R",
-		"email": "mail@jannisr.de",
-		"url": "http://jannisr.de"
-	},
-	"homepage": "https://github.com/derhuerst/vbb-stations-autocomplete",
-	"repository": "git://github.com/derhuerst/vbb-stations-autocomplete.git",
-	"bugs": "https://github.com/derhuerst/vbb-stations-autocomplete/issues",
-	"keywords": [
-		"vbb",
-		"stations",
-		"autocomplete",
-		"index",
-		"search",
-		"berlin",
-		"brandenburg",
-		"public transport",
-		"open data",
-		"json",
-		"javascript"
-	],
-	"version": "0.5.0",
-	"main": "./src/index.js",
+	"name":         "vbb-stations-autocomplete",
+	"description":  "Search for stations of VBB.",
+	"version":      "0.5.0",
+	"main":         "./src/index.js",
+	"files":        ["./src/index.js", "./src/Autocomplete.js"],
+	"keywords":     ["vbb", "stations", "autocomplete", "search", "berlin", "public transport", "open data"],
+	"author":       "Jannis R <mail@jannisr.de>",
+	"homepage":     "https://github.com/derhuerst/vbb-stations-autocomplete",
+	"repository":   "git://github.com/derhuerst/vbb-stations-autocomplete.git",
+	"license":      "ISC",
 	"dependencies": {
-		"bluebird":			"^2.10.2",
-		"vbb-util":			"^0.8.0",
-		"hifo":				"^0.5.0"
+		"bluebird": "^2.10.2",
+		"vbb-util": "^0.8.0",
+		"hifo":     "^0.5.0"
 	},
 	"devDependencies": {
-		"coffee-script":	"^1.10.0",
-		"vbb-static":		"^0.8.0"
-	},
-	"directories": {
-		"src":	"./src"
+		"coffee-script": "^1.10.0",
+		"vbb-static":    "^0.8.0"
 	},
 	"scripts": {
-		"build":	"./build/index.sh"
+		"build":    "./build/index.sh"
 	}
 }
