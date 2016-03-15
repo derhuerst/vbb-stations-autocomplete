@@ -2,8 +2,8 @@
 	"name":         "vbb-stations-autocomplete",
 	"description":  "Search for stations of VBB.",
 	"version":      "0.5.0",
-	"main":         "./src/index.js",
-	"files":        ["./src/index.js", "./src/Autocomplete.js"],
+	"main":         "./index.js",
+	"files":        ["./index.js"],
 	"keywords":     ["vbb", "stations", "autocomplete", "search", "berlin", "public transport", "open data"],
 	"author":       "Jannis R <mail@jannisr.de>",
 	"homepage":     "https://github.com/derhuerst/vbb-stations-autocomplete",
@@ -12,7 +12,7 @@
 	"dependencies": {
 		"bluebird": "^2.10.2",
 		"vbb-util": "^0.8.0",
-		"hifo":     "^0.5.0"
+		"hifo":     "^0.6.0"
 	},
 	"devDependencies": {
 		"coffee-script": "^1.10.0",
