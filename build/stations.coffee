@@ -20,6 +20,7 @@ set.on 'data', (data) ->
 		id:			data.id
 		name:		data.name
 		weight:		data.weight
+		tokens:		util.locations.stations.tokenize(data.name).split(' ').length
 		relevance:	0
 
 set.on 'end', () ->
