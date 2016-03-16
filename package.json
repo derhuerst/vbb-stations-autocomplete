@@ -19,6 +19,9 @@
 		"vbb-static":    "^0.8.0"
 	},
 	"scripts": {
-		"build":    "./build/index.sh"
+		"test":          "nodeunit --reporter minimal test.coffee",
+		"test:watch":    "watchy -s -w . nodeunit --reporter minimal test.coffee",
+		"prepublish":    "npm test",
+		"build":         "./build/index.sh"
 	}
 }
