@@ -83,12 +83,28 @@ const autocomplete = function (query, limit) {
 		.map(enrichFragmentWithTokens)
 	filterStationsOfFragmentsByAnd(fragments)
 
+	let stations = {}
+	for (let fragment of fragments) {
+		for (let token of fragment.tokens) {
+			for (let id of token.stations) {
+				let station = allStations[id]
 
+				if (!stations[id]) {
+					stations[id] = Object.create(station)
+					stations[id].relevance = 1
 				}
+
+				stations[id].relevance *= token.relevance
 			}
 		}
 	}
 
+	for (let id in stations) {
+		let station = stations[id]
+		station.relevance *= Math.sqrt(station.weight)
+		station.relevance *= 1 / station.tokens
+		results.add(station)
+	}
 
 	return results.data
 }
