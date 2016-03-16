@@ -19,10 +19,7 @@ npm install vbb-stations-autocomplete
 
 ```javascript
 var autocomplete = require('vbb-stations-autocomplete')(2);   // limit by 2
-```
-
-```javascript
-stations.suggest('U Amrumer Str');
+autocomplete('U Amrumer Str');
 ```
 
 returns a [promise that will resolve](http://documentup.com/kriskowal/q/#tutorial) with
@@ -32,13 +29,18 @@ returns a [promise that will resolve](http://documentup.com/kriskowal/q/#tutoria
 	{
 		id: 9009101,
 		name: 'U Amrumer Str. (Berlin)',
-		weight: 10125,
+		weight: 5759.5,
 		relevance: 6
 	}, {
 		id: 9009272,
 		name: 'U Osloer Str. (Berlin) [Bus Tromsöer Str.]',
-		weight: 3075,
+		weight: 922.5,
 		relevance: 6
+	}, {
+		id: 9110006,
+		name: 'U Eberswalder Str. (Berlin)',
+		weight: 13476.75,
+		relevance: 4
 	}
 ]
 ```

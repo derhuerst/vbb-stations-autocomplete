@@ -1,7 +1,7 @@
 'use strict'
 
 const hifo =      require('hifo')
-const mergeWith = require('lodash/mergeWith')
+const mergeWith = require('lodash.mergewith')
 
 const tokenize =  require('vbb-util').locations.stations.tokenize
 
