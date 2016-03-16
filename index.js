@@ -17,85 +17,66 @@ const tokens =    require('./data/tokens.json')
 
 
 
-const heatMap = function (things) {
-	const result = {}
-	for (let i in things) {
-		if (things[i] in result) result[things[i]]++
-		else result[things[i]] = 1
+const findTokensForFragment = function (fragment) {
+	let results = []
+	for (let token in allTokens) {
+
+		if (token === fragment) // exact match
+			results.push({
+				name:      fragment,
+				relevance: Math.sqrt(fragment.length)
+			})
+
+		// match beginning with `fragment`
+		else if (fragment === token.slice(0, fragment.length))
+			results.push({
+				name:      token,
+				relevance: fragment.length / token.length
+			})
 	}
-	return result
+	return results
 }
 
-const diffFragments = function (a, b) {
-	let result = mergeWith(heatMap(a), heatMap(b), (vA, vB, k, a) => (k in a) ? vA - vB : -vB)
+const findStationsForToken = (token) => allTokens[token.name]
 
-	for (let i in result) {
-		if (result[i] === 0) delete result[i]
-		else result[i] *= -1
+
+
+const enrichTokenWithStations = (token) => Object.assign(
+	token,
+	{stations: findStationsForToken(token)}
+)
+
+const enrichFragmentWithTokens = (fragment) => ({
+	name:   fragment,
+	tokens: findTokensForFragment(fragment)
+		.map(enrichTokenWithStations)
+})
+
+
+
+
+
+
+
+
+
+const autocomplete = function (query, limit) {
+	let results = hifo(hifo.highest('relevance'), limit || 6)
+
+	let fragments = tokenize(query).split(' ')
+		.map(enrichFragmentWithTokens)
+
+
+				}
+			}
+		}
 	}
 
-	return result
-}
-
-
-
-const sortTokens = hifo.highest(1)
-
-const findTokensByFragment = function (tokens, fragment) {
-	// look for an exact match
-	if (tokens[fragment]) return [[fragment, Math.sqrt(fragment.length)]]
-
-	let results = hifo(sortTokens, 3)
-
-	// look for matches beginning with `fragment`
-	for (let token in tokens) {
-		if (fragment === token.slice(0, fragment.length))
-			results.add([token, fragment.length / token.length])
-	}
 
 	return results.data
 }
 
 
-
-const autocomplete = function (limit) {
-
-	// A `hifo` instance that stores the highest values passed in.
-	let results = hifo(hifo.highest('relevance', 'weight'), limit || 6)
-	let lastQuery = []
-
-	let refs = []
-
-	return function (query) {
-		query = tokenize(query).split(' ')
-		let diff = diffFragments(lastQuery, query)
-
-		for (let fragment in diff) {
-			let tokensForFragment = findTokensByFragment(tokens, fragment)
-			console.log('tokensForFragment', fragment, tokensForFragment)
-			for (let token of tokensForFragment) {
-				let stationsForToken = tokens[token[0]]
-				for (let station of stationsForToken) {
-
-					if (!refs[station])
-						refs[station] = Object.create(stations[station])
-
-					refs[station].relevance += token[1] * diff[fragment] * 2 / stationsForToken.length
-					results.add(refs[station])
-
-					if (refs[station].relevance <= 0) delete refs[station]
-				}
-			}
-		}
-
-		lastQuery = query
-		return results.data
-	}
-
-
-
-
-}
 
 module.exports = Object.assign(autocomplete, {
 	diffFragments,
