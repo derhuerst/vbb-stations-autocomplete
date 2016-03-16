@@ -1,12 +1,10 @@
 'use strict'
 
-const hifo =      require('hifo')
-const mergeWith = require('lodash.mergewith')
+const hifo =         require('hifo')
+const tokenize =     require('vbb-util').locations.stations.tokenize
 
-const tokenize =  require('vbb-util').locations.stations.tokenize
-
-const stations =  require('./data/stations.json')
-const tokens =    require('./data/tokens.json')
+const allStations =  require('./data/stations.json')
+const allTokens =    require('./data/tokens.json')
 
 // naming:
 // - a fragment is a part of a search query
@@ -112,6 +110,8 @@ const autocomplete = function (query, limit) {
 
 
 module.exports = Object.assign(autocomplete, {
-	diffFragments,
-	findTokensByFragment
+ 	findTokensForFragment, findStationsForToken,
+ 	enrichTokenWithStations, enrichFragmentWithTokens,
+ 	stationsOfToken, stationsOfFragment,
+ 	stationMatchesAllFragments, filterStationsOfFragmentsByAnd
 })

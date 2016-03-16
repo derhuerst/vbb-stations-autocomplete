@@ -10,9 +10,8 @@
 	"repository":   "git://github.com/derhuerst/vbb-stations-autocomplete.git",
 	"license":      "ISC",
 	"dependencies": {
-		"hifo":             "^0.6.0",
-		"lodash.mergewith": "^4.3.2",
-		"vbb-util":         "^0.8.0"
+		"hifo":          "^0.6.0",
+		"vbb-util":      "^0.8.0"
 	},
 	"devDependencies": {
 		"coffee-script": "^1.10.0",
