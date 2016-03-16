@@ -54,9 +54,25 @@ const enrichFragmentWithTokens = (fragment) => ({
 
 
 
+const stationsOfToken = (acc, token) => acc.concat(token.stations)
+const stationsOfFragment = (fragment) => fragment.tokens
+	.reduce(stationsOfToken, [])
 
+const stationMatchesAllFragments = (stationsOfFragments) =>
+	(station) => stationsOfFragments
+		.every((stationsOfFragment) => stationsOfFragment.indexOf(station) >= 0)
 
+const filterStationsOfFragmentsByAnd = function (fragments) {
+	let p = stationMatchesAllFragments(fragments.map(stationsOfFragment))
 
+	for (let fragment of fragments) {
+		fragment.tokens = fragment.tokens
+			.filter(function (token) {
+				token.stations = token.stations.filter(p)
+				return token.stations.length > 0
+			})
+	}
+}
 
 
 
@@ -65,6 +81,7 @@ const autocomplete = function (query, limit) {
 
 	let fragments = tokenize(query).split(' ')
 		.map(enrichFragmentWithTokens)
+	filterStationsOfFragmentsByAnd(fragments)
 
 
 				}
