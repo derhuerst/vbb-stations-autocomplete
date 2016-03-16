@@ -43,7 +43,7 @@ const sortTokens = hifo.highest(1)
 
 const findTokensByFragment = function (tokens, fragment) {
 	// look for an exact match
-	if (tokens[fragment]) return [[fragment, 2]]
+	if (tokens[fragment]) return [[fragment, Math.sqrt(fragment.length)]]
 
 	let results = hifo(sortTokens, 3)
 
@@ -72,6 +72,7 @@ const autocomplete = function (limit) {
 
 		for (let fragment in diff) {
 			let tokensForFragment = findTokensByFragment(tokens, fragment)
+			console.log('tokensForFragment', fragment, tokensForFragment)
 			for (let token of tokensForFragment) {
 				let stationsForToken = tokens[token[0]]
 				for (let station of stationsForToken) {
@@ -79,7 +80,7 @@ const autocomplete = function (limit) {
 					if (!refs[station])
 						refs[station] = Object.create(stations[station])
 
-					refs[station].relevance += token[1] * diff[fragment]
+					refs[station].relevance += token[1] * diff[fragment] * 2 / stationsForToken.length
 					results.add(refs[station])
 
 					if (refs[station].relevance <= 0) delete refs[station]
