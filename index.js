@@ -64,6 +64,8 @@ const autocomplete = function (limit) {
 	let results = hifo(hifo.highest('relevance', 'weight'), limit || 6)
 	let lastQuery = []
 
+	let refs = []
+
 	return function (query) {
 		query = tokenize(query).split(' ')
 		let diff = diffFragments(lastQuery, query)
@@ -73,10 +75,14 @@ const autocomplete = function (limit) {
 			for (let token of tokensForFragment) {
 				let stationsForToken = tokens[token[0]]
 				for (let station of stationsForToken) {
-					station = stations[station]
 
-					station.relevance += token[1] * diff[fragment]
-					results.add(station)
+					if (!refs[station])
+						refs[station] = Object.create(stations[station])
+
+					refs[station].relevance += token[1] * diff[fragment]
+					results.add(refs[station])
+
+					if (refs[station].relevance <= 0) delete refs[station]
 				}
 			}
 		}
@@ -91,6 +97,6 @@ const autocomplete = function (limit) {
 }
 
 module.exports = Object.assign(autocomplete, {
-	diffFragments:        diffFragments,
-	findTokensByFragment: findTokensByFragment
+	diffFragments,
+	findTokensByFragment
 })
