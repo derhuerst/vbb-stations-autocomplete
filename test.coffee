@@ -1,66 +1,89 @@
 'use strict'
 
-autocomplete = require './index.js'
+sinon =           require 'sinon'
+nodeunit =        require 'nodeunit'
+
+requireMock = sinon.stub()
+mock = (k, v) -> requireMock.withArgs(k).returns v
+
+mock 'hifo',      require 'hifo'
+mock 'vbb-util',  require 'vbb-util'
+mock './data/stations.json',
+	one: {id: 'one', name: 'Foo Station',      weight: 10, tokens: 2}
+	two: {id: 'two', name: 'Bar Main Station', weight: 20, tokens: 3}
+mock './data/tokens.json',
+	foo: ['one'], bar: ['two'], main: ['two'], station: ['one', 'two']
+
+moduleMock = exports: {}
+nodeunit.utils.sandbox './index.js',
+	require: requireMock,
+	module:  moduleMock
+autocomplete = moduleMock.exports
+
+module.exports =
 
 
 
-diffFragments =
+	findTokensForFragment:
 
-	'should find removed tokens': (test) ->
-		# qux removed once, bar removed once
-		result = autocomplete.diffFragments ['foo', 'bar', 'baz', 'qux'], ['foo', 'baz']
-		test.deepEqual {qux: -1, bar: -1}, result
-		test.done()
+		'finds an exact match': (t) ->
+			t.expect 3
+			results = autocomplete.findTokensForFragment 'main'
+			t.strictEqual results.length,       1
+			t.strictEqual results[0].name,      'main'
+			t.strictEqual results[0].relevance, 2
+			t.done()
 
-	'should find added tokens': (test) ->
-		# bar added twice
-		result = autocomplete.diffFragments ['foo', 'baz'], ['foo', 'bar', 'baz', 'bar']
-		test.deepEqual {bar: 2}, result
-		test.done()
+		'finds an match be first letters': (t) ->
+			t.expect 3
+			results = autocomplete.findTokensForFragment 'mai'
+			t.strictEqual results.length,       1
+			t.strictEqual results[0].name,      'main'
+			t.strictEqual results[0].relevance, 3/4
+			t.done()
 
-	'with a being empty':
-
-		'should find added tokens': (test) ->
-			# foo added, bar added
-			result = autocomplete.diffFragments [], ['foo', 'bar']
-			test.deepEqual {foo: 1, bar: 1}, result
-			test.done()
-
-	'should master the kitchen sink': (test) ->
-		# bar added twice, qux added, foo removed
-		result = autocomplete.diffFragments ['foo', 'baz'], ['qux', 'bar', 'baz', 'bar']
-		test.deepEqual {bar: 2, qux: 1, foo: -1}, result
-		test.done()
+	findStationsForToken: (t) ->
+		t.expect 3
+		results = autocomplete.findStationsForToken name: 'station'
+		t.strictEqual results.length, 2
+		t.ok 'one' in results
+		t.ok 'two' in results
+		t.done()
 
 
 
-findTokensByFragment =
+	autocomplete:
 
-	'should exactly match tokens': (test) ->
-		result = autocomplete.findTokensByFragment {foo: [], bar: []}, 'bar'
-		test.deepEqual result, [['bar', 2]]
-		test.done()
+		'returns an array': (t) ->
+			t.expect 2
+			t.ok Array.isArray autocomplete '', 3
+			t.ok Array.isArray autocomplete 'foo', 3
+			t.done()
 
-	'should match tokens by first letters': (test) ->
-		result = autocomplete.findTokensByFragment {abc1: [], abc23: []}, 'abc'
-		test.deepEqual result, [
-			['abc1',  3/4] # 3 out of 4 letters
-			['abc23', 3/5] # 3 out of 5 letters
-		]
-		test.deepEqual autocomplete.findTokensByFragment({foo: []}, 'bar'), []
-		test.done()
+		'returns an empty array for an empty query': (t) ->
+			t.expect 1
+			results = autocomplete '', 3
+			t.strictEqual results.length, 0
+			t.done()
 
-	'should return only the top 3 tokens': (test) ->
-		result = autocomplete.findTokensByFragment {
-			fooAA: [], fooB: [], fooCCC: [], fooDDDD: []
-		}, 'foo'
-		test.deepEqual result, [
-			['fooB',   3/4] # 3 out of 4 letters
-			['fooAA',  3/5] # 3 out of 5 letters
-			['fooCCC', 3/6] # 3 out of 6 letters
-		]
-		test.done()
+		'sorts by relevance': (t) ->
+			t.expect 2
+			results = autocomplete 'statio', 3
+			t.strictEqual results.length, 2
+			t.ok results[0].relevance >= results[1].relevance
+			t.done()
 
+		'calculates the relevance correctly': (t) ->
+			t.expect 5
+			results = autocomplete 'statio', 3
+			t.strictEqual results.length, 2
+			t.strictEqual results[0].id,        'one'
+			t.strictEqual results[0].relevance, 6/7 * Math.sqrt(10) / 2
+			t.strictEqual results[1].id,        'two'
+			t.strictEqual results[1].relevance, 6/7 * Math.sqrt(20) / 3
+			t.done()
 
-
-module.exports = {diffFragments, findTokensByFragment}
+		'limits the number of results': (t) ->
+			t.expect 1
+			t.strictEqual autocomplete('statio', 1).length, 1
+			t.done()
