@@ -19,14 +19,16 @@ const findTokensForFragment = function (fragment) {
 	let results = []
 	for (let token in allTokens) {
 
-		if (token === fragment) // exact match
+		if (token === fragment) { // exact match
 			results.push({
 				name:      fragment,
 				relevance: Math.sqrt(fragment.length)
 			})
+			break
+		}
 
 		// match beginning with `fragment`
-		else if (fragment === token.slice(0, fragment.length))
+		if (fragment === token.slice(0, fragment.length))
 			results.push({
 				name:      token,
 				relevance: fragment.length / token.length
@@ -75,6 +77,7 @@ const filterStationsOfFragmentsByAnd = function (fragments) {
 
 
 const autocomplete = function (query, limit) {
+	if (query === '') return []
 	let results = hifo(hifo.highest('relevance'), limit || 6)
 
 	let fragments = tokenize(query).split(' ')
