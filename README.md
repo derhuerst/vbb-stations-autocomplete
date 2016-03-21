@@ -20,29 +20,33 @@ npm install vbb-stations-autocomplete
 ## Usage
 
 ```javascript
-var autocomplete = require('vbb-stations-autocomplete')(2);   // limit by 2
-autocomplete('U Amrumer Str');
+const autocomplete = require('vbb-stations-autocomplete')
+autocomplete('Seestr', 3)   // limit to results 3
 ```
 
-returns a [promise that will resolve](http://documentup.com/kriskowal/q/#tutorial) with
+returns
 
 ```javascript
 [
 	{
-		id: 9009101,
-		name: 'U Amrumer Str. (Berlin)',
-		weight: 5759.5,
-		relevance: 6
+		id: 9009103,
+		name: 'U Seestr. (Berlin)',
+		// Taken from `vbb-static`.
+		weight: 10717.75,
+		// Based on how much of the station's name is mached
+		// by the search query. Also, the station's weight is
+		// taken into account.
+		relevance: 109.12658297184564
 	}, {
-		id: 9009272,
-		name: 'U Osloer Str. (Berlin) [Bus Tromsöer Str.]',
-		weight: 922.5,
-		relevance: 6
+		id: 9009105,
+		name: 'Seestr./Amrumer Str. (Berlin)',
+		weight: 4689.25,
+		relevance: 54.13669042340879
 	}, {
-		id: 9110006,
-		name: 'U Eberswalder Str. (Berlin)',
-		weight: 13476.75,
-		relevance: 4
+		id: 9019103,
+		name: 'Seestr./Beusselstr. (Berlin)',
+		weight: 1509,
+		relevance: 40.94712037087183
 	}
 ]
 ```
