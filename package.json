@@ -10,16 +10,15 @@
 	"repository":   "git://github.com/derhuerst/vbb-stations-autocomplete.git",
 	"license":      "ISC",
 	"dependencies": {
-		"hifo":          "^0.6.0",
-		"vbb-util":      "^0.8.0"
+		"hifo":                 "^0.6.0",
+		"vbb-tokenize-station": "^0.1.1"
 	},
 	"devDependencies": {
 		"coffee-script":        "^1.10.0",
 		"nodeunit":             "^0.9.1",
 		"sinon":                "^1.17.3",
 		"watchy":               "^0.6.6",
-		"vbb-stations":         "^0.2.1",
-		"vbb-tokenize-station": "^0.1.1"
+		"vbb-stations":         "^0.2.1"
 	},
 	"scripts": {
 		"test":          "nodeunit --reporter minimal test.coffee",

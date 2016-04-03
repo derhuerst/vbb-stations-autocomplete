@@ -1,10 +1,10 @@
 'use strict'
 
-const hifo =         require('hifo')
-const tokenize =     require('vbb-util').locations.stations.tokenize
+const hifo =        require('hifo')
+const tokenize =    require('vbb-tokenize-station')
 
-const allStations =  require('./stations.json')
-const allTokens =    require('./tokens.json')
+const allStations = require('./stations.json')
+const allTokens =   require('./tokens.json')
 
 // naming:
 // - a fragment is a part of a search query
@@ -80,7 +80,7 @@ const autocomplete = function (query, limit) {
 	if (query === '') return []
 	let results = hifo(hifo.highest('relevance'), limit || 6)
 
-	let fragments = tokenize(query).split(' ')
+	let fragments = tokenize(query)
 		.map(enrichFragmentWithTokens)
 	filterStationsOfFragmentsByAnd(fragments)
 
