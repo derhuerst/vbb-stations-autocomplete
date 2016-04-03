@@ -2,8 +2,8 @@
 	"name":         "vbb-stations-autocomplete",
 	"description":  "Search for stations of VBB.",
 	"version":      "0.6.0",
-	"main":         "./index.js",
-	"files":        ["./index.js", "data/*"],
+	"main":         "index.js",
+	"files":        ["index.js", "stations.json", "tokens.json"],
 	"keywords":     ["vbb", "stations", "autocomplete", "search", "berlin", "public transport", "open data"],
 	"author":       "Jannis R <mail@jannisr.de>",
 	"homepage":     "https://github.com/derhuerst/vbb-stations-autocomplete",
@@ -14,11 +14,12 @@
 		"vbb-util":      "^0.8.0"
 	},
 	"devDependencies": {
-		"coffee-script": "^1.10.0",
-		"nodeunit":      "^0.9.1",
-		"sinon":         "^1.17.3",
-		"watchy":        "^0.6.6",
-		"vbb-static":    "^0.8.0"
+		"coffee-script":        "^1.10.0",
+		"nodeunit":             "^0.9.1",
+		"sinon":                "^1.17.3",
+		"watchy":               "^0.6.6",
+		"vbb-stations":         "^0.2.1",
+		"vbb-tokenize-station": "^0.1.1"
 	},
 	"scripts": {
 		"test":          "nodeunit --reporter minimal test.coffee",
