@@ -8,10 +8,10 @@ mock = (k, v) -> requireMock.withArgs(k).returns v
 
 mock 'hifo',      require 'hifo'
 mock 'vbb-util',  require 'vbb-util'
-mock './data/stations.json',
+mock './stations.json',
 	one: {id: 'one', name: 'Foo Station',      weight: 10, tokens: 2}
 	two: {id: 'two', name: 'Bar Main Station', weight: 20, tokens: 3}
-mock './data/tokens.json',
+mock './tokens.json',
 	foo: ['one'], bar: ['two'], main: ['two'], station: ['one', 'two']
 
 moduleMock = exports: {}

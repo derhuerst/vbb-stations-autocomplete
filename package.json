@@ -24,6 +24,6 @@
 		"test":          "nodeunit --reporter minimal test.coffee",
 		"test:watch":    "watchy -s -w . nodeunit --reporter minimal test.coffee",
 		"prepublish":    "npm test",
-		"build":         "./build/index.sh"
+		"build":         "node ./build.js"
 	}
 }

@@ -3,8 +3,8 @@
 const hifo =         require('hifo')
 const tokenize =     require('vbb-util').locations.stations.tokenize
 
-const allStations =  require('./data/stations.json')
-const allTokens =    require('./data/tokens.json')
+const allStations =  require('./stations.json')
+const allTokens =    require('./tokens.json')
 
 // naming:
 // - a fragment is a part of a search query
