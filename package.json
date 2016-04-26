@@ -1,7 +1,7 @@
 {
 	"name":         "vbb-stations-autocomplete",
 	"description":  "Search for stations of VBB.",
-	"version":      "0.6.1",
+	"version":      "0.7.0",
 	"main":         "index.js",
 	"files":        ["index.js", "stations.json", "tokens.json"],
 	"keywords":     ["vbb", "stations", "autocomplete", "search", "berlin", "public transport", "open data"],
