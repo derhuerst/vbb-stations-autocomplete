@@ -23,7 +23,7 @@
 	"scripts": {
 		"test":          "nodeunit --reporter minimal test.coffee",
 		"test:watch":    "watchy -s -w . nodeunit --reporter minimal test.coffee",
-		"prepublish":    "npm test",
+		"prepublish":    "npm run build && npm test",
 		"build":         "node ./build.js"
 	}
 }
