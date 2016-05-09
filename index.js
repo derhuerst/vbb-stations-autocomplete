@@ -2,6 +2,7 @@
 
 const hifo =        require('hifo')
 const tokenize =    require('vbb-tokenize-station')
+const flatten  =    require('lodash.toplainobject')
 
 const allStations = require('./stations.json')
 const allTokens =   require('./tokens.json')
@@ -107,7 +108,7 @@ const autocomplete = function (query, limit) {
 		results.add(station)
 	}
 
-	return results.data
+	return results.data.map(flatten)
 }
 
 
