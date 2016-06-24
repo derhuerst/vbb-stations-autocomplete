@@ -6,8 +6,9 @@ nodeunit =        require 'nodeunit'
 requireMock = sinon.stub()
 mock = (k, v) -> requireMock.withArgs(k).returns v
 
-mock 'hifo',                  require 'hifo'
+mock 'hifo',                 require 'hifo'
 mock 'vbb-tokenize-station', require 'vbb-tokenize-station'
+mock 'lodash.toplainobject', require 'lodash.toplainobject'
 mock './stations.json',
 	one: {id: 'one', name: 'Foo Station',      weight: 10, tokens: 2}
 	two: {id: 'two', name: 'Bar Main Station', weight: 20, tokens: 3}
