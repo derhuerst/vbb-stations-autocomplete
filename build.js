@@ -1,13 +1,9 @@
 'use strict'
 
 const stations = require('vbb-stations')
-const tokenize = require('vbb-tokenize-station')
-const map      = require('through2-map')
-const fs       = require('fs')
-const through  = require('through2')
 const common   = require('vbb-common-places')
-
-
+const tokenize = require('vbb-tokenize-station')
+const fs       = require('fs')
 
 const showError = (err) => {
 	if (!err) return
@@ -17,57 +13,43 @@ const showError = (err) => {
 
 
 
-console.info('Creating a search index from vbb-stations.')
+console.info('Joining vbb-stations & vbb-common-places.')
 
-const allStations = {}
-const allTokens   = {}
+const data = stations('all')
+.map((s) => {s.tokens = tokenize(s.name); return s})
 
-const onStation = (station) => {
-	allStations[station.id] = {
+for (let name in common) {
+	const station = stations(common[name])
+	data.push(Object.assign({}, station, {
+		tokens: tokenize(name)
+	}))
+}
+
+
+console.info('Building a search index.')
+
+const allStations = data.reduce((all, station) => {
+	all[station.id] = {
 		  id:        station.id
 		, name:      station.name
 		, weight:    station.weight
 		, tokens:    station.tokens.length
 		, relevance: 0
 	}
+	return all
+}, {})
 
+const allTokens = data.reduce((all, station) => {
 	for (let token of station.tokens) {
-		if (!(token in allTokens)) allTokens[token] = []
-		allTokens[token].push(station.id)
+		if (!(token in all)) all[token] = []
+		all[token].push(station.id)
 	}
-}
+	return all
+}, {})
 
 
 
-stations('all').on('error', showError)
-.pipe(map.obj((station) => {
-	station.tokens = tokenize(station.name)
-	return station
-}))
-.on('data', onStation)
-.on('end', () => {
-	console.info('Done.')
+console.info('Writing index to file.')
 
-	console.info('Adding stations from vbb-common-places.')
-	const digest = through.obj(function (alias, _, cb) {
-		const self = this
-		stations(alias.id).on('error', cb)
-		.on('data', (station) => {
-			station.tokens = tokenize(alias.name)
-			this.push(station)
-		})
-		.on('end', () => cb())
-	})
-
-	.on('data', onStation)
-	.on('end', () => {
-		console.info('Done.')
-
-		fs.writeFile('./stations.json', JSON.stringify(allStations), showError)
-		fs.writeFile('./tokens.json', JSON.stringify(allTokens), showError)
-	})
-
-	for (let name in common) {digest.write({name, id: common[name]})}
-	digest.end()
-
-})
+fs.writeFile('./stations.json', JSON.stringify(allStations), showError)
+fs.writeFile('./tokens.json', JSON.stringify(allTokens), showError)
