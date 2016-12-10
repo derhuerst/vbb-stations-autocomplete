@@ -22,7 +22,7 @@
 		"vbb-stations":         "^2.1",
 		"through2-map":         "^3.0.0",
 		"through2":             "^2.0.1",
-		"vbb-common-places":    "^0.4"
+		"vbb-common-places":    "^1.0.0"
 	},
 	"scripts": {
 		"test":          "nodeunit --reporter minimal test.coffee",
