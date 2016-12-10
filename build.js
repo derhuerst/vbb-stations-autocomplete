@@ -4,6 +4,7 @@ const stations = require('vbb-stations')
 const common   = require('vbb-common-places')
 const tokenize = require('vbb-tokenize-station')
 const fs       = require('fs')
+const path = require('path')
 
 const showError = (err) => {
 	if (!err) return
@@ -51,5 +52,5 @@ const allTokens = data.reduce((all, station) => {
 
 console.info('Writing index to file.')
 
-fs.writeFile('./stations.json', JSON.stringify(allStations), showError)
-fs.writeFile('./tokens.json', JSON.stringify(allTokens), showError)
+fs.writeFile(path.join(__dirname, 'stations.json'), JSON.stringify(allStations), showError)
+fs.writeFile(path.join(__dirname, 'tokens.json'), JSON.stringify(allTokens), showError)
