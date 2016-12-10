@@ -10,13 +10,11 @@
 [![gitter channel](https://badges.gitter.im/derhuerst/vbb-rest.svg)](https://gitter.im/derhuerst/vbb-rest)
 
 
-
 ## Installing
 
 ```shell
 npm install vbb-stations-autocomplete
 ```
-
 
 
 ## Usage
@@ -30,29 +28,28 @@ returns
 
 ```javascript
 [
-	{
-		id: 9009103,
-		name: 'U Seestr. (Berlin)',
+    {
+        id: '900000009105',
 		// Taken from `vbb-static`.
-		weight: 10717.75,
+        name: 'Seestr./Amrumer Str.',
+        weight: 2625.75, tokens: 4,
 		// Based on how much of the station's name is mached
 		// by the search query. Also, the station's weight is
 		// taken into account.
-		relevance: 109.12658297184564
-	}, {
-		id: 9009105,
-		name: 'Seestr./Amrumer Str. (Berlin)',
-		weight: 4689.25,
-		relevance: 54.13669042340879
-	}, {
-		id: 9019103,
-		name: 'Seestr./Beusselstr. (Berlin)',
-		weight: 1509,
-		relevance: 40.94712037087183
-	}
+        relevance: 155.31927802111366
+    }, {
+        id: '900000009103',
+        name: 'U Seestr.',
+        weight: 6263.75, tokens: 3,
+        relevance: 120.8942375246507
+    }, {
+        id: '900000019103',
+        name: 'Seestr./Beusselstr.',
+        weight: 1549.5, tokens: 4,
+        relevance: 119.31484086231687
+    }
 ]
 ```
-
 
 
 ## Contributing
