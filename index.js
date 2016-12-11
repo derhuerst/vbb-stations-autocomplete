@@ -90,6 +90,7 @@ const autocomplete = function (query, limit) {
 		for (let token of fragment.tokens) {
 			for (let id of token.stations) {
 				let station = allStations[id]
+				if (!station) continue
 
 				if (!stations[id]) {
 					stations[id] = Object.create(station)

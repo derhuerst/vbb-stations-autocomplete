@@ -1,7 +1,7 @@
 'use strict'
 
 const stations = require('vbb-stations')
-const common   = require('vbb-common-places')
+const aliases   = require('vbb-common-places').stations
 const tokenize = require('vbb-tokenize-station')
 const fs       = require('fs')
 const path = require('path')
@@ -16,15 +16,10 @@ const showError = (err) => {
 
 console.info('Joining vbb-stations & vbb-common-places.')
 
-const data = stations('all')
-.map((s) => {s.tokens = tokenize(s.name); return s})
-
-for (let name in common) {
-	const station = stations(common[name])
-	data.push(Object.assign({}, station, {
-		tokens: tokenize(name)
-	}))
-}
+const data = stations('all').map((s) => {
+	s.tokens = tokenize(s.name);
+	return s
+})
 
 
 console.info('Building a search index.')
@@ -47,6 +42,17 @@ const allTokens = data.reduce((all, station) => {
 	}
 	return all
 }, {})
+
+for (let alias in aliases) {
+	const id = aliases[alias]
+	const station = allStations[id]
+	if (!station) console.error('Unknown station', id)
+
+	for (let token of tokenize(alias)) {
+		if (!(token in allTokens)) allTokens[token] = []
+		allTokens[token].push(id)
+	}
+}
 
 
 
