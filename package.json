@@ -1,7 +1,7 @@
 {
 	"name":         "vbb-stations-autocomplete",
 	"description":  "Search for stations of VBB.",
-	"version":      "1.0.1",
+	"version":      "1.1.0",
 	"main":         "index.js",
 	"files":        ["index.js", "stations.json", "tokens.json"],
 	"keywords":     ["vbb", "stations", "autocomplete", "search", "berlin", "public transport", "open data"],
@@ -19,7 +19,7 @@
 		"nodeunit":             "^0.10.2",
 		"sinon":                "^1.17.5",
 		"watchy":               "^0.6.6",
-		"vbb-stations":         "^3.0.0",
+		"vbb-stations": "^3.1.0",
 		"through2-map":         "^3.0.0",
 		"through2":             "^2.0.1",
 		"vbb-common-places":    "^1.0.0"
