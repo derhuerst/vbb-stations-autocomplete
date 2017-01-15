@@ -10,7 +10,7 @@
 	"repository":   "git://github.com/derhuerst/vbb-stations-autocomplete.git",
 	"license":      "ISC",
 	"dependencies": {
-		"hifo":                 "^0.6.0",
+		"hifo":                 "^0.7.0",
 		"vbb-tokenize-station": "^0.2",
 		"lodash.toplainobject": "^4.0.4"
 	},
