@@ -28,26 +28,25 @@ returns
 
 ```javascript
 [
-    {
-        id: '900000009105',
-		// Taken from `vbb-static`.
-        name: 'Seestr./Amrumer Str.',
-        weight: 2625.75, tokens: 4,
+	{
+		id: '900000009105',
+		name: 'Seestr./Amrumer Str.',
+		weight: 2682.5, tokens: 4,
 		// Based on how much of the station's name is mached
 		// by the search query. Also, the station's weight is
 		// taken into account.
-        relevance: 155.31927802111366
-    }, {
-        id: '900000009103',
-        name: 'U Seestr.',
-        weight: 6263.75, tokens: 3,
-        relevance: 120.8942375246507
-    }, {
-        id: '900000019103',
-        name: 'Seestr./Beusselstr.',
-        weight: 1549.5, tokens: 4,
-        relevance: 119.31484086231687
-    }
+		relevance: 156.9887535780828
+	}, {
+		id: '900000009103',
+		name: 'U Seestr.',
+		weight: 9244, tokens: 3,
+		relevance: 146.86501739125396
+	}, {
+		id: '900000019103',
+		name: 'Seestr./Beusselstr.',
+		weight: 1545, tokens: 4,
+		relevance: 119.14146003805728
+	}
 ]
 ```
 
