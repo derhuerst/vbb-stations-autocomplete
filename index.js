@@ -104,8 +104,8 @@ const autocomplete = function (query, limit) {
 
 	for (let id in stations) {
 		let station = stations[id]
-		station.relevance *= Math.sqrt(station.weight)
-		station.relevance *= 1 / station.tokens
+		station.relevance *= 2 * Math.sqrt(station.weight)
+		station.relevance /= station.tokens
 		results.add(station)
 	}
 
