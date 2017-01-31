@@ -79,9 +79,9 @@ module.exports =
 			results = autocomplete 'statio', 3
 			t.strictEqual results.length, 2
 			t.strictEqual results[0].id,        'one'
-			t.strictEqual results[0].relevance, 6/7 * Math.sqrt(10) / 2
+			t.strictEqual results[0].relevance, 6/7 * Math.sqrt(10)
 			t.strictEqual results[1].id,        'two'
-			t.strictEqual results[1].relevance, 6/7 * Math.sqrt(20) / 3
+			t.strictEqual results[1].relevance, 6/7 * Math.sqrt(20) * 2 / 3
 			t.done()
 
 		'limits the number of results': (t) ->
