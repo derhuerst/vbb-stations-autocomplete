@@ -1,7 +1,7 @@
 {
 	"name":         "vbb-stations-autocomplete",
 	"description":  "Search for stations of VBB.",
-	"version":      "1.4.0",
+	"version":      "2.0.0",
 	"main":         "index.js",
 	"files":        ["index.js", "stations.json", "tokens.json"],
 	"keywords":     ["vbb", "stations", "autocomplete", "search", "berlin", "public transport", "open data"],
@@ -9,6 +9,7 @@
 	"homepage":     "https://github.com/derhuerst/vbb-stations-autocomplete",
 	"repository":   "git://github.com/derhuerst/vbb-stations-autocomplete.git",
 	"license":      "ISC",
+	"engines":      {"node": ">=6"},
 	"dependencies": {
 		"hifo":                 "^0.7.0",
 		"vbb-tokenize-station": "^0.2.1",
@@ -19,7 +20,7 @@
 		"sandboxed-module": "2.0.3",
 		"tape": "^4.6.3",
 		"tap-min": "^1.2.1",
-		"vbb-stations": "^3.3.0",
+		"vbb-stations": "^4.0.0",
 		"through2-map":         "^3.0.0",
 		"through2":             "^2.0.1",
 		"vbb-common-places": "^1.1.0"
