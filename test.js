@@ -6,8 +6,20 @@ const test = require('tape')
 
 const autocomplete = mocked.require('.', {requires: {
 	'./stations.json': {
-		one: {id: 'one', name: 'Foo Station', weight: 10, tokens: 2},
-		two: {id: 'two', name: 'Bar Main Station', weight: 20, tokens: 3}
+		one: {
+			type: 'station',
+			id: 'one',
+			name: 'Foo Station',
+			weight: 10,
+			tokens: 2
+		},
+		two: {
+			type: 'station',
+			id: 'two',
+			name: 'Bar Main Station',
+			weight: 20,
+			tokens: 3
+		}
 	},
 	'./tokens.json': {
 		foo: ['one'],
