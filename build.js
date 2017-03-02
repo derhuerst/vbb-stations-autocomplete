@@ -16,21 +16,20 @@ const showError = (err) => {
 
 console.info('Joining vbb-stations & vbb-common-places.')
 
-const data = stations('all').map((s) => {
-	s.tokens = tokenize(s.name);
-	return s
-})
+const data = stations('all')
+.map((s) => Object.assign({tokens: tokenize(s.name)}, s))
 
 
 console.info('Building a search index.')
 
-const allStations = data.reduce((all, station) => {
-	all[station.id] = {
-		  id:        station.id
-		, name:      station.name
-		, weight:    station.weight
-		, tokens:    station.tokens.length
-		, relevance: 0
+const allStations = data.reduce((all, s) => {
+	all[s.id] = {
+		type: 'station',
+		id: s.id,
+		name: s.name,
+		weight: s.weight,
+		tokens: s.tokens.length,
+		relevance: 0,
 	}
 	return all
 }, {})
