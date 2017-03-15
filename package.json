@@ -15,7 +15,7 @@
 		"lodash.toplainobject": "^4.0.4"
 	},
 	"devDependencies": {
-		"sinon": "^1.17.7",
+		"sinon": "^2.0.0",
 		"sandboxed-module": "2.0.3",
 		"tape": "^4.6.3",
 		"tap-min": "^1.2.1",
