@@ -12,7 +12,7 @@
 	"engines":      {"node": ">=6"},
 	"dependencies": {
 		"hifo":                 "^0.7.0",
-		"vbb-tokenize-station": "^0.2.1",
+		"vbb-tokenize-station": "^0.3.0",
 		"lodash.toplainobject": "^4.0.4"
 	},
 	"devDependencies": {
