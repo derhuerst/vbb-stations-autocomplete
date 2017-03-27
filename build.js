@@ -1,9 +1,9 @@
 'use strict'
 
 const stations = require('vbb-stations')
-const aliases   = require('vbb-common-places').stations
+const aliases = require('vbb-common-places').stations
 const tokenize = require('vbb-tokenize-station')
-const fs       = require('fs')
+const fs = require('fs')
 const path = require('path')
 
 const showError = (err) => {
@@ -12,35 +12,40 @@ const showError = (err) => {
 	process.exit(1)
 }
 
+const writeJSON = (file, data, cb) => {
+	fs.writeFile(path.join(__dirname, file), JSON.stringify(data), cb)
+}
 
-
-console.info('Joining vbb-stations & vbb-common-places.')
-
-const data = stations('all')
-.map((s) => Object.assign({tokens: tokenize(s.name)}, s))
 
 
 console.info('Building a search index.')
 
-const allStations = data.reduce((all, s) => {
+const allStations = stations('all').reduce((all, s) => {
+	const tokens = tokenize(s.name)
+
 	all[s.id] = {
 		type: 'station',
 		id: s.id,
 		name: s.name,
 		weight: s.weight,
-		tokens: s.tokens.length,
-		relevance: 0,
+		tokens: tokens.length
 	}
 	return all
 }, {})
 
-const allTokens = data.reduce((all, station) => {
-	for (let token of station.tokens) {
+const allTokens = stations('all').reduce((all, s) => {
+	const tokens = tokenize(s.name)
+
+	for (let token of tokens) {
 		if (!(token in all)) all[token] = []
-		all[token].push(station.id)
+		all[token].push(s.id)
 	}
 	return all
 }, {})
+
+
+
+console.info('Adding aliases from vbb-common-places.')
 
 for (let alias in aliases) {
 	const id = aliases[alias]
@@ -57,5 +62,5 @@ for (let alias in aliases) {
 
 console.info('Writing index to file.')
 
-fs.writeFile(path.join(__dirname, 'stations.json'), JSON.stringify(allStations), showError)
-fs.writeFile(path.join(__dirname, 'tokens.json'), JSON.stringify(allTokens), showError)
+writeJSON('stations.json', allStations, showError)
+writeJSON('tokens.json', allTokens, showError)
