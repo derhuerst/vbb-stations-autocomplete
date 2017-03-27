@@ -17,23 +17,22 @@ const allTokens =   require('./tokens.json')
 
 
 const findTokensForFragment = function (fragment) {
+	if (allTokens[fragment]) { // exact match
+		return [{
+			name: fragment,
+			relevance: Math.sqrt(fragment.length)
+		}]
+	}
+
 	let results = []
 	for (let token in allTokens) {
-
-		if (token === fragment) { // exact match
-			results.push({
-				name:      fragment,
-				relevance: Math.sqrt(fragment.length)
-			})
-			break
-		}
-
 		// match beginning with `fragment`
-		if (fragment === token.slice(0, fragment.length))
+		if (fragment === token.slice(0, fragment.length)) {
 			results.push({
 				name:      token,
 				relevance: fragment.length / token.length
 			})
+		}
 	}
 	return results
 }
