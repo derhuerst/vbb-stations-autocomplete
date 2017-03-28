@@ -23,9 +23,8 @@ const tokensByFragment = (fragment) => {
 		} else continue
 
 		for (let id of tokens[token]) {
-			if (!results[id] || !results[id].relevance < relevance) {
-				// todo: is storing the token really necessary?
-				results[id] = {token: token, relevance}
+			if (!results[id] || !results[id] < relevance) {
+				results[id] = relevance
 			}
 		}
 	}
@@ -43,12 +42,12 @@ const autocomplete = (query, limit = 6) => {
 	}
 
 	const totalRelevance = (id) => {
-		let r = 1
+		let r = 1 / stations[id].tokens
 		for (let fragment in data) {
 			if (!data[fragment][id]) return false
-			r *= data[fragment][id].relevance
+			r *= data[fragment][id]
 		}
-		return r / stations[id].tokens
+		return r
 	}
 
 	const results = {}

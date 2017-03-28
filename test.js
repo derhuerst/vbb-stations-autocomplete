@@ -36,7 +36,7 @@ test('tokensByFragment finds an exact match', (t) => {
 	const results = autocomplete.tokensByFragment('main')
 
 	t.deepEqual(results, {
-		two: {token: 'main', relevance: 1 + 2}
+		two: 1 + 2
 	})
 })
 
@@ -45,7 +45,7 @@ test('tokensByFragment finds an match by first letters', (t) => {
 	const results = autocomplete.tokensByFragment('mai')
 
 	t.deepEqual(results, {
-		two: {token: 'main', relevance: 1 + 3/4}
+		two: 1 + 3/4
 	})
 })
 
