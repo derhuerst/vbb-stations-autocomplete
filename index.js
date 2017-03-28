@@ -3,23 +3,27 @@
 const hifo = require('hifo')
 const tokenize = require('vbb-tokenize-station')
 const maxBy = require('lodash.maxby')
+const leven = require('leven')
 
 const stations = require('./stations.json')
 const tokens = require('./tokens.json')
 
 
 
-const tokensByFragment = (fragment) => {
+const tokensByFragment = (fragment, fuzzy) => {
 	const results = {}
 	const l = fragment.length
 
 	for (let token in tokens) {
 		let relevance
+		let distance
 
 		// add-one smoothing
 		if (fragment === token) relevance = 1 + Math.sqrt(fragment.length)
 		else if (fragment === token.slice(0, l)) {
 			relevance = 1 + fragment.length / token.length
+		} else if (fuzzy && (distance = leven(fragment, token)) <= 3) {
+			relevance = 1 + (token.length - distance) / token.length
 		} else continue
 
 		for (let id of tokens[token]) {
@@ -32,13 +36,13 @@ const tokensByFragment = (fragment) => {
 	return results
 }
 
-const autocomplete = (query, limit = 6) => {
+const autocomplete = (query, limit = 6, fuzzy = false) => {
 	if (query === '') return []
 	const relevant = hifo(hifo.highest('score'), limit || 6)
 
 	const data = {}
 	for (let fragment of tokenize(query)) {
-		data[fragment] = tokensByFragment(fragment)
+		data[fragment] = tokensByFragment(fragment, fuzzy)
 	}
 
 	const totalRelevance = (id) => {

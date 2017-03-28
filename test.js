@@ -40,12 +40,22 @@ test('tokensByFragment finds an exact match', (t) => {
 	})
 })
 
-test('tokensByFragment finds an match by first letters', (t) => {
+test('tokensByFragment finds a match by first letters', (t) => {
 	t.plan(1)
 	const results = autocomplete.tokensByFragment('mai')
 
 	t.deepEqual(results, {
 		two: 1 + 3/4
+	})
+})
+
+test('tokensByFragment finds a match despite typos', (t) => {
+	t.plan(1)
+	const results = autocomplete.tokensByFragment('statoi', true)
+
+	t.deepEqual(results, {
+		one: 1 + 5/7,
+		two: 1 + 5/7
 	})
 })
 
