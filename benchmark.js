@@ -33,6 +33,9 @@ new Suite()
 .add('fuzzy – "U mehrigndamm"', function () {
 	autocomplete('U mehrigndamm', 3, true)
 })
+.add('100 results – "U friedr"', function () {
+	autocomplete('U friedr', 100)
+})
 
 .on('cycle', (e) => {
 	console.log(e.target.toString())

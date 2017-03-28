@@ -2,7 +2,7 @@
 
 const mocked = require('sandboxed-module')
 const test = require('tape')
-const sortBy = require('lodash.sortBy')
+const sortBy = require('lodash.sortby')
 
 const autocomplete = mocked.require('.', {requires: {
 	'./stations.json': {
