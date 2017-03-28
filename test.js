@@ -33,7 +33,7 @@ const autocomplete = mocked.require('.', {requires: {
 
 test('tokensByFragment finds an exact match', (t) => {
 	t.plan(1)
-	const results = autocomplete.tokensByFragment('main')
+	const results = autocomplete.tokensByFragment('main', false, false)
 
 	t.deepEqual(results, {
 		two: 1 + 2
@@ -41,17 +41,18 @@ test('tokensByFragment finds an exact match', (t) => {
 })
 
 test('tokensByFragment finds a match by first letters', (t) => {
-	t.plan(1)
-	const results = autocomplete.tokensByFragment('mai')
+	t.plan(2)
 
-	t.deepEqual(results, {
+	t.deepEqual(autocomplete.tokensByFragment('mai', true, false), {
 		two: 1 + 3/4
 	})
+
+	t.deepEqual(autocomplete.tokensByFragment('mai', false, false), {})
 })
 
 test('tokensByFragment finds a match despite typos', (t) => {
 	t.plan(1)
-	const results = autocomplete.tokensByFragment('statoi', true)
+	const results = autocomplete.tokensByFragment('statoi', false, true)
 
 	t.deepEqual(results, {
 		one: 1 + 5/7,

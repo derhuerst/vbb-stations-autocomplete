@@ -18,7 +18,7 @@ npm install vbb-stations-autocomplete
 ## Usage
 
 ```js
-autocomplete(query, results = 3, fuzzy = false)
+autocomplete(query, results = 3, fuzzy = false, completion = true)
 ```
 
 ```javascript
@@ -65,6 +65,13 @@ test | performance
 non-fuzzy – `U mehringdamm` | 294 ops/sec
 fuzzy – `U mehrigndamm` | 85.85 ops/sec
 
+
+Setting `completion` to `false` speeds things up slightly:
+
+test | performance
+-----|------------
+completion – `U friedr` | 281 ops/sec
+no completion – `U friedr` | 432 ops/sec
 
 ## Contributing
 
