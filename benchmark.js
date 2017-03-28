@@ -24,6 +24,12 @@ new Suite()
 .add('umlauts', function () {
 	autocomplete('U märkisches museum', 3)
 })
+.add('non-fuzzy – "U mehringdamm"', function () {
+	autocomplete('U mehringdamm', 3)
+})
+.add('fuzzy – "U mehrigndamm"', function () {
+	autocomplete('U mehrigndamm', 3, true)
+})
 
 .on('cycle', (e) => {
 	console.log(e.target.toString())

@@ -17,9 +17,13 @@ npm install vbb-stations-autocomplete
 
 ## Usage
 
+```js
+autocomplete(query, results = 3, fuzzy = false)
+```
+
 ```javascript
 const autocomplete = require('vbb-stations-autocomplete')
-autocomplete('Seestr', 3)   // limit to results 3
+autocomplete('Seestr', 3)
 ```
 
 This returns stations in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format).
@@ -53,6 +57,13 @@ This returns stations in the [*Friendly Public Transport Format*](https://github
 	}
 ]
 ```
+
+If you set `fuzzy` to `true`, words with a [Levenshtein distance below `3`](https://en.wikipedia.org/wiki/Levenshtein_distance) will be taken into account. This is a lot slower though:
+
+test | performance
+-----|------------
+non-fuzzy – `U mehringdamm` | 294 ops/sec
+fuzzy – `U mehrigndamm` | 85.85 ops/sec
 
 
 ## Contributing
