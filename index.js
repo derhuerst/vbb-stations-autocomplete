@@ -1,121 +1,75 @@
 'use strict'
 
-const hifo =        require('hifo')
-const tokenize =    require('vbb-tokenize-station')
-const flatten  =    require('lodash.toplainobject')
+const hifo = require('hifo')
+const tokenize = require('vbb-tokenize-station')
+const maxBy = require('lodash.maxby')
 
-const allStations = require('./stations.json')
-const allTokens =   require('./tokens.json')
-
-// naming:
-// - a fragment is a part of a search query
-// - a token is a part of a stations' name
-// - a result is a triple of station, relevance & weight
+const stations = require('./stations.json')
+const tokens = require('./tokens.json')
 
 
 
+const tokensByFragment = (fragment) => {
+	const results = {}
+	const l = fragment.length
 
+	for (let token in tokens) {
+		let relevance
 
-const findTokensForFragment = function (fragment) {
-	if (allTokens[fragment]) { // exact match
-		return [{
-			name: fragment,
-			relevance: Math.sqrt(fragment.length)
-		}]
-	}
+		// add-one smoothing
+		if (fragment === token) relevance = 1 + Math.sqrt(fragment.length)
+		else if (fragment === token.slice(0, l)) {
+			relevance = 1 + fragment.length / token.length
+		} else continue
 
-	let results = []
-	for (let token in allTokens) {
-		// match beginning with `fragment`
-		if (fragment === token.slice(0, fragment.length)) {
-			results.push({
-				name:      token,
-				relevance: fragment.length / token.length
-			})
-		}
-	}
-	return results
-}
-
-const findStationsForToken = (token) => allTokens[token.name]
-
-
-
-const enrichTokenWithStations = (token) => Object.assign(
-	token,
-	{stations: findStationsForToken(token)}
-)
-
-const enrichFragmentWithTokens = (fragment) => ({
-	name:   fragment,
-	tokens: findTokensForFragment(fragment)
-		.map(enrichTokenWithStations)
-})
-
-
-
-const stationsOfToken = (acc, token) => acc.concat(token.stations)
-const stationsOfFragment = (fragment) => fragment.tokens
-	.reduce(stationsOfToken, [])
-
-const stationMatchesAllFragments = (stationsOfFragments) =>
-	(station) => stationsOfFragments
-		.every((stationsOfFragment) => stationsOfFragment.indexOf(station) >= 0)
-
-const filterStationsOfFragmentsByAnd = function (fragments) {
-	let p = stationMatchesAllFragments(fragments.map(stationsOfFragment))
-
-	for (let fragment of fragments) {
-		fragment.tokens = fragment.tokens
-			.filter(function (token) {
-				token.stations = token.stations.filter(p)
-				return token.stations.length > 0
-			})
-	}
-}
-
-
-
-const autocomplete = function (query, limit) {
-	if (query === '') return []
-	let results = hifo(hifo.highest('relevance'), limit || 6)
-
-	let fragments = tokenize(query)
-		.map(enrichFragmentWithTokens)
-	filterStationsOfFragmentsByAnd(fragments)
-
-	let stations = {}
-	for (let fragment of fragments) {
-		for (let token of fragment.tokens) {
-			for (let id of token.stations) {
-				let station = allStations[id]
-				if (!station) continue
-
-				if (!stations[id]) {
-					stations[id] = Object.create(station)
-					stations[id].relevance = 1
-				}
-
-				stations[id].relevance *= token.relevance
+		for (let id of tokens[token]) {
+			if (!results[id] || !results[id].relevance < relevance) {
+				// todo: is storing the token really necessary?
+				results[id] = {token: token, relevance}
 			}
 		}
 	}
 
-	for (let id in stations) {
-		let station = stations[id]
-		station.relevance *= 2 * Math.sqrt(station.weight)
-		station.relevance /= station.tokens
-		results.add(station)
-	}
-
-	return results.data.map(flatten)
+	return results
 }
 
+const autocomplete = (query, limit = 6) => {
+	if (query === '') return []
+	const relevant = hifo(hifo.highest('relevance'), limit || 6)
 
+	const data = {}
+	for (let fragment of tokenize(query)) {
+		data[fragment] = tokensByFragment(fragment)
+	}
+
+	const totalRelevance = (id) => {
+		let r = 1
+		for (let fragment in data) {
+			if (!data[fragment][id]) return false
+			r *= data[fragment][id].relevance
+		}
+		return r / stations[id].tokens
+	}
+
+	const results = {}
+	for (let fragment in data) {
+		for (let id in data[fragment]) {
+			const r = totalRelevance(id)
+			if (r === false) continue
+
+			const station = stations[id]
+			r = r / station.tokens * station.weight
+
+			if (!results[id] || results[id].relevance < r) {
+				results[id] = {id, relevance: r}
+			}
+		}
+	}
+
+	for (let id in results) relevant.add(results[id])
+	return relevant.data.map((r) => Object.assign(r, stations[r.id]))
+}
 
 module.exports = Object.assign(autocomplete, {
- 	findTokensForFragment, findStationsForToken,
- 	enrichTokenWithStations, enrichFragmentWithTokens,
- 	stationsOfToken, stationsOfFragment,
- 	stationMatchesAllFragments, filterStationsOfFragmentsByAnd
+	tokensByFragment
 })

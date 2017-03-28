@@ -13,7 +13,7 @@
 	"dependencies": {
 		"hifo":                 "^0.7.0",
 		"vbb-tokenize-station": "^0.3.0",
-		"lodash.toplainobject": "^4.0.4"
+		"lodash.maxby": "^4.6.0"
 	},
 	"devDependencies": {
 		"benchmark": "^2.1.3",
