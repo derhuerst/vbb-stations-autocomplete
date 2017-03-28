@@ -58,7 +58,7 @@ This returns stations in the [*Friendly Public Transport Format*](https://github
 ]
 ```
 
-If you set `fuzzy` to `true`, words with a [Levenshtein distance below `3`](https://en.wikipedia.org/wiki/Levenshtein_distance) will be taken into account. This is a lot slower though:
+If you set `fuzzy` to `true`, words with a [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) `<= 3` will be taken into account. This is a lot slower though:
 
 test | performance
 -----|------------
