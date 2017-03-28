@@ -27,28 +27,29 @@ This returns stations in the [*Friendly Public Transport Format*](https://github
 ```javascript
 [
 	{
-		type: 'station',
-		id: '900000009105',
-		name: 'Seestr./Amrumer Str.',
-		weight: 2682.5,
-		tokens: 4,
-		// Based on how much of the station's name is mached by the search query.
-		// Also, the station's weight is taken into account.
-		relevance: 156.9887535780828
-	}, {
-		type: 'station',
 		id: '900000009103',
-		name: 'U Seestr.',
-		weight: 9244,
-		tokens: 3,
-		relevance: 146.86501739125396
-	}, {
+		relevance: 2.08113883008419,
+		score: 187.63460439121263,
 		type: 'station',
+		name: 'U Seestr.',
+		weight: 8128.75,
+		tokens: 2
+	}, {
+		id: '900000009105',
+		relevance: 1.3874258867227933,
+		score: 94.23522862823623,
+		type: 'station',
+		name: 'Seestr./Amrumer Str.',
+		weight: 4613.25,
+		tokens: 3
+	}, {
 		id: '900000019103',
+		relevance: 2.08113883008419,
+		score: 74.67490370756026,
+		type: 'station',
 		name: 'Seestr./Beusselstr.',
-		weight: 1545,
-		tokens: 4,
-		relevance: 119.14146003805728
+		weight: 1287.5,
+		tokens: 2
 	}
 ]
 ```

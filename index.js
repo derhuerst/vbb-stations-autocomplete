@@ -35,7 +35,7 @@ const tokensByFragment = (fragment) => {
 
 const autocomplete = (query, limit = 6) => {
 	if (query === '') return []
-	const relevant = hifo(hifo.highest('relevance'), limit || 6)
+	const relevant = hifo(hifo.highest('score'), limit || 6)
 
 	const data = {}
 	for (let fragment of tokenize(query)) {
@@ -54,14 +54,14 @@ const autocomplete = (query, limit = 6) => {
 	const results = {}
 	for (let fragment in data) {
 		for (let id in data[fragment]) {
-			const r = totalRelevance(id)
-			if (r === false) continue
+			const relevance = totalRelevance(id)
+			if (relevance === false) continue
 
 			const station = stations[id]
-			r = r / station.tokens * station.weight
+			const score = relevance * Math.sqrt(station.weight)
 
-			if (!results[id] || results[id].relevance < r) {
-				results[id] = {id, relevance: r}
+			if (!results[id] || results[id].score < score) {
+				results[id] = {id, relevance, score}
 			}
 		}
 	}
