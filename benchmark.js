@@ -10,13 +10,13 @@ new Suite()
 	autocomplete('Bellevue', 3)
 })
 .add('basic query, two tokens', function () {
-	autocomplete('Seestr.', 3)
+	autocomplete('U Seestr.', 3)
 })
 .add('completion – "U friedr"', function () {
 	autocomplete('U friedr', 3)
 })
 .add('completion – "meh"', function () {
-	autocomplete('Bellevue', 3)
+	autocomplete('meh', 3, false)
 })
 .add('complex', function () {
 	autocomplete('S+U Warschauer Straße', 3)
