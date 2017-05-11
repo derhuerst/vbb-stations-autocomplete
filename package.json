@@ -1,7 +1,7 @@
 {
 	"name":         "vbb-stations-autocomplete",
 	"description":  "Search for stations of VBB.",
-	"version":      "2.2.0",
+	"version":      "2.3.0",
 	"main":         "index.js",
 	"files":        ["index.js", "stations.json", "tokens.json"],
 	"keywords":     ["vbb", "stations", "autocomplete", "search", "berlin", "public transport", "open data"],
@@ -31,6 +31,6 @@
 		"build": "node ./build.js",
 		"test": "node test.js | tap-min",
 		"benchmark": "node benchmark.js",
-		"prepublish": "npm run build && npm test"
+		"prepublishOnly": "npm run build && npm test"
 	}
 }
