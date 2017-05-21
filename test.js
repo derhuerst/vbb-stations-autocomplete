@@ -7,18 +7,14 @@ const sortBy = require('lodash.sortby')
 const autocomplete = mocked.require('.', {requires: {
 	'./stations.json': {
 		one: {
-			type: 'station',
-			id: 'one',
-			name: 'Foo Station',
-			weight: 10,
-			tokens: 2
+			n: 'Foo Station',
+			w: 10,
+			t: 2
 		},
 		two: {
-			type: 'station',
-			id: 'two',
-			name: 'Bar Main Station',
-			weight: 20,
-			tokens: 3
+			n: 'Bar Main Station',
+			w: 20,
+			t: 3
 		}
 	},
 	'./tokens.json': {

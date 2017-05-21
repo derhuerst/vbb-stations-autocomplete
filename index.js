@@ -57,7 +57,7 @@ const autocomplete = (query, limit = 6, fuzzy = false, completion = true) => {
 	}
 
 	const totalRelevance = (id) => {
-		let r = 1 / stations[id].tokens
+		let r = 1 / stations[id].t
 		for (let fragment in data) {
 			if (!data[fragment][id]) return false
 			r *= data[fragment][id]
@@ -72,7 +72,7 @@ const autocomplete = (query, limit = 6, fuzzy = false, completion = true) => {
 			if (relevance === false) continue
 
 			const station = stations[id]
-			const score = relevance * Math.sqrt(station.weight)
+			const score = relevance * Math.sqrt(station.w)
 
 			if (!results[id] || results[id].score < score) {
 				results[id] = {id, relevance, score}
@@ -81,7 +81,13 @@ const autocomplete = (query, limit = 6, fuzzy = false, completion = true) => {
 	}
 
 	for (let id in results) relevant.add(results[id])
-	return relevant.data.map((r) => Object.assign(r, stations[r.id]))
+	return relevant.data.map((r) => {
+		const s = stations[r.id]
+		return {
+			id: r.id, relevance: r.relevance, score: r.score,
+			name: s.n, weight: s.w
+		}
+	})
 }
 
 module.exports = Object.assign(autocomplete, {

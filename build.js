@@ -24,11 +24,9 @@ const allStations = stations('all').reduce((all, s) => {
 	const tokens = tokenize(s.name)
 
 	all[s.id] = {
-		type: 'station',
-		id: s.id,
-		name: s.name,
-		weight: s.weight,
-		tokens: tokens.length
+		n: s.name,
+		w: s.weight,
+		t: tokens.length
 	}
 	return all
 }, {})
