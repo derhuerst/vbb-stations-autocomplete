@@ -75,7 +75,7 @@ for (let token in scores) {
 
 for (let token in scores) {
 	let score = (max - scores[token]) / max // revert, clamp to [0, 1]
-	score = Math.pow(score, 3) // stretch distribution
+	score = Math.pow(score, 5) // stretch distribution
 	scores[token] = parseFloat(score.toFixed(5))
 }
 

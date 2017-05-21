@@ -7,6 +7,7 @@ const leven = require('leven')
 
 const stations = require('./stations.json')
 const tokens = require('./tokens.json')
+const scores = require('./scores.json')
 
 
 
@@ -15,7 +16,7 @@ const tokensByFragment = (fragment, completion, fuzzy) => {
 	const l = fragment.length
 
 	if (tokens[fragment]) {
-		const relevance = 1 + Math.sqrt(fragment.length)
+		const relevance = 1 + scores[fragment] + Math.sqrt(fragment.length)
 
 		for (let id of tokens[fragment]) {
 			if (!results[id] || !results[id] < relevance) {
@@ -26,14 +27,16 @@ const tokensByFragment = (fragment, completion, fuzzy) => {
 
 	if (completion || fuzzy) {
 		for (let t in tokens) {
+			if (fragment === t) continue // has been dealt with above
+
 			let relevance
 			let distance
 
 			// add-one smoothing
 			if (completion && t.length > fragment.length && fragment === t.slice(0, l)) {
-				relevance = 1 + fragment.length / t.length
+				relevance = 1 + scores[t] + fragment.length / t.length
 			} else if (fuzzy && (distance = leven(fragment, t)) <= 3) {
-				relevance = 1 + (t.length - distance) / t.length
+				relevance = (1 + scores[t]) / (distance + 1)
 			} else continue
 
 			for (let id of tokens[t]) {
@@ -72,7 +75,7 @@ const autocomplete = (query, limit = 6, fuzzy = false, completion = true) => {
 			if (relevance === false) continue
 
 			const station = stations[id]
-			const score = relevance * Math.sqrt(station.w)
+			const score = relevance * Math.pow(station.w, 1/3)
 
 			if (!results[id] || results[id].score < score) {
 				results[id] = {id, relevance, score}

@@ -22,6 +22,12 @@ const autocomplete = mocked.require('.', {requires: {
 		bar: ['two'],
 		main: ['two'],
 		station: ['one', 'two']
+	},
+	'./scores.json': {
+		foo: 1,
+		bar: 1,
+		main: 1,
+		station: .5
 	}
 }})
 
@@ -32,7 +38,7 @@ test('tokensByFragment finds an exact match', (t) => {
 	const results = autocomplete.tokensByFragment('main', false, false)
 
 	t.deepEqual(results, {
-		two: 1 + 2
+		two: 1 + 1 + 2
 	})
 })
 
@@ -40,7 +46,7 @@ test('tokensByFragment finds a match by first letters', (t) => {
 	t.plan(2)
 
 	t.deepEqual(autocomplete.tokensByFragment('mai', true, false), {
-		two: 1 + 3/4
+		two: 1 + 1 + 3/4
 	})
 
 	t.deepEqual(autocomplete.tokensByFragment('mai', false, false), {})
@@ -48,11 +54,11 @@ test('tokensByFragment finds a match by first letters', (t) => {
 
 test('tokensByFragment finds a match despite typos', (t) => {
 	t.plan(1)
-	const results = autocomplete.tokensByFragment('statoi', false, true)
+	const results = autocomplete.tokensByFragment('statoi', false, true) // typo
 
 	t.deepEqual(results, {
-		one: 1 + 5/7,
-		two: 1 + 5/7
+		one: (1 + .5) / (1 + 2),
+		two: (1 + .5) / (1 + 2)
 	})
 })
 
@@ -84,11 +90,16 @@ test('autocomplete calculates the relevance & score correctly', (t) => {
 
 	t.equal(results.length, 2)
 	t.equal(results[0].id, 'one')
-	t.equal(results[0].relevance, (1 + 6/7) / 2) // 6 of 7 letters matched, 2 tokens
-	t.equal(results[0].score, (1 + 6/7) / 2 * Math.sqrt(10))
+	const r0 = (1 + .5 + 6/7) / 2 // 6 of 7 letters matched, 2 tokens
+	t.equal(results[0].relevance.toFixed(10), r0.toFixed(10))
+	const s0 = (1 + .5 + 6/7) / 2 * Math.pow(10, 1/3)
+	t.equal(results[0].score.toFixed(10), s0.toFixed(10))
+
 	t.equal(results[1].id, 'two')
-	t.equal(results[1].relevance, (1 + 6/7) / 3) // 6 of 7 letters matched, 3 tokens
-	t.equal(results[1].score, (1 + 6/7) / 3 * Math.sqrt(20))
+	const r1 = (1 + .5 + 6/7) / 3 // 6 of 7 letters matched, 3 tokens
+	t.equal(results[1].relevance.toFixed(10), r1.toFixed(10))
+	const s1 = (1 + .5 + 6/7) / 3 * Math.pow(20, 1/3)
+	t.equal(results[1].score.toFixed(10), s1.toFixed(10))
 })
 
 test('autocomplete limits the number of results', (t) => {
