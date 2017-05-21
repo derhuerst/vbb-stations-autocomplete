@@ -31,6 +31,8 @@ const autocomplete = mocked.require('.', {requires: {
 	}
 }})
 
+const autocomplete2 = require('.')
+
 
 
 test('tokensByFragment finds an exact match', (t) => {
@@ -105,4 +107,12 @@ test('autocomplete calculates the relevance & score correctly', (t) => {
 test('autocomplete limits the number of results', (t) => {
 	t.plan(1)
 	t.equal(autocomplete('statio', 1).length, 1)
+})
+
+test('gives reasonable results', (t) => {
+	t.plan(3)
+
+	t.equal((autocomplete2('U Seestr.', 1)[0] || {}).id, '900000009103')
+	t.equal((autocomplete2('S Heerstr.', 1)[0] || {}).id, '900000026105')
+	t.equal((autocomplete2('kotti', 1, true)[0] || {}).id, '900000013102')
 })
