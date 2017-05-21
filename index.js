@@ -87,6 +87,7 @@ const autocomplete = (query, limit = 6, fuzzy = false, completion = true) => {
 	return relevant.data.map((r) => {
 		const s = stations[r.id]
 		return {
+			type: 'station',
 			id: r.id, relevance: r.relevance, score: r.score,
 			name: s.n, weight: s.w
 		}
