@@ -58,7 +58,31 @@ for (let alias in aliases) {
 
 
 
+console.info('Computing token scores.')
+
+const scores = {}
+
+const nrOfAllStations = Object.keys(allStations).length
+for (let token in allTokens) {
+	const nrOfStations = allTokens[token].length
+	scores[token] = nrOfStations / nrOfAllStations
+}
+
+let max = 0
+for (let token in scores) {
+	max = Math.max(scores[token], max)
+}
+
+for (let token in scores) {
+	let score = (max - scores[token]) / max // revert, clamp to [0, 1]
+	score = Math.pow(score, 3) // stretch distribution
+	scores[token] = parseFloat(score.toFixed(5))
+}
+
+
+
 console.info('Writing index to file.')
 
 writeJSON('stations.json', allStations, showError)
 writeJSON('tokens.json', allTokens, showError)
+writeJSON('scores.json', scores, showError)

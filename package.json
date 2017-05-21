@@ -3,7 +3,7 @@
 	"description":  "Search for stations of VBB.",
 	"version":      "2.3.0",
 	"main":         "index.js",
-	"files":        ["index.js", "stations.json", "tokens.json"],
+	"files":        ["index.js", "stations.json", "tokens.json", "scores.json"],
 	"keywords":     ["vbb", "stations", "autocomplete", "search", "berlin", "public transport", "open data"],
 	"author":       "Jannis R <mail@jannisr.de>",
 	"homepage":     "https://github.com/derhuerst/vbb-stations-autocomplete",
