@@ -1,17 +1,32 @@
 {
-	"name":         "vbb-stations-autocomplete",
-	"description":  "Search for stations of VBB.",
-	"version":      "2.6.0",
-	"main":         "index.js",
-	"files":        ["index.js", "stations.json", "tokens.json", "scores.json"],
-	"keywords":     ["vbb", "stations", "autocomplete", "search", "berlin", "public transport", "open data"],
-	"author":       "Jannis R <mail@jannisr.de>",
-	"homepage":     "https://github.com/derhuerst/vbb-stations-autocomplete",
-	"repository":   "git://github.com/derhuerst/vbb-stations-autocomplete.git",
-	"license":      "ISC",
-	"engines":      {"node": ">=6"},
+	"name": "vbb-stations-autocomplete",
+	"description": "Search for stations of VBB.",
+	"version": "2.6.0",
+	"main": "index.js",
+	"files": [
+		"index.js",
+		"stations.json",
+		"tokens.json",
+		"scores.json"
+	],
+	"keywords": [
+		"vbb",
+		"stations",
+		"autocomplete",
+		"search",
+		"berlin",
+		"public transport",
+		"open data"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/vbb-stations-autocomplete",
+	"repository": "git://github.com/derhuerst/vbb-stations-autocomplete.git",
+	"license": "ISC",
+	"engines": {
+		"node": ">=6"
+	},
 	"dependencies": {
-		"hifo":                 "^0.7.0",
+		"hifo": "^0.7.0",
 		"vbb-tokenize-station": "^0.3.0",
 		"leven": "^2.1.0",
 		"lodash.maxby": "^4.6.0"
@@ -23,8 +38,8 @@
 		"tape": "^4.6.3",
 		"tap-min": "^1.2.1",
 		"vbb-stations": "^5.3.0",
-		"through2-map":         "^3.0.0",
-		"through2":             "^2.0.1",
+		"through2-map": "^3.0.0",
+		"through2": "^2.0.1",
 		"vbb-common-places": "^1.1.0"
 	},
 	"scripts": {
