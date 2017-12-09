@@ -110,11 +110,15 @@ test('autocomplete limits the number of results', (t) => {
 })
 
 test('gives reasonable results', (t) => {
-	t.plan(4)
+	t.plan(6)
 
 	t.equal((autocomplete2('U Seestr.', 1)[0] || {}).id, '900000009103')
 	t.equal((autocomplete2('S Heerstr.', 1)[0] || {}).id, '900000026105')
 	t.equal((autocomplete2('kotti', 1, true)[0] || {}).id, '900000013102')
 
 	t.ok(autocomplete2('U tor', 100).every((s) => s.type === 'station'))
+
+	const r = autocomplete2('S+U Alexanderplatz', 1, true, false)[0] || {}
+	t.equal(r.id, '900000100003')
+	t.equal(r.name, 'S+U Alexanderplatz')
 })
