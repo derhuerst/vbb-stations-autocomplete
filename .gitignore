@@ -5,6 +5,9 @@ Thumbs.db
 node_modules
 npm-debug.log
 
+/package-lock.json
+/shrinkwrap.yaml
+
 stations.json
 tokens.json
 scores.json
