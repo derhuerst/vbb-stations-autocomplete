@@ -28,7 +28,7 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"synchronous-autocomplete": "^0.1.0",
+		"synchronous-autocomplete": "^1.0.0",
 		"vbb-tokenize-station": "^0.3.0"
 	},
 	"devDependencies": {
