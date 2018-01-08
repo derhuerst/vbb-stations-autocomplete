@@ -8,6 +8,7 @@ npm-debug.log
 /package-lock.json
 /shrinkwrap.yaml
 
+original-ids.json
 tokens.json
 scores.json
 weights.json

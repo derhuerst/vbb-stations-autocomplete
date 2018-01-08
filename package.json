@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"files": [
 		"index.js",
+		"original-ids.json",
 		"tokens.json",
 		"scores.json",
 		"weights.json",
@@ -27,10 +28,8 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"hifo": "^0.7.0",
-		"vbb-tokenize-station": "^0.3.0",
-		"leven": "^2.1.0",
-		"lodash.maxby": "^4.6.0"
+		"synchronous-autocomplete": "^0.1.0",
+		"vbb-tokenize-station": "^0.3.0"
 	},
 	"devDependencies": {
 		"benchmark": "^2.1.3",

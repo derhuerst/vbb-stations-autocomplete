@@ -68,6 +68,7 @@ const {tokens, scores, weights, nrOfTokens} = buildIndex(tokenize, items)
 
 console.info('Writing the index to disk.')
 
+writeJSON('original-ids.json', originalIds, showError)
 writeJSON('tokens.json', tokens, showError)
 writeJSON('scores.json', scores, showError)
 writeJSON('weights.json', weights, showError)
