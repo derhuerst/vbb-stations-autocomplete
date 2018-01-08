@@ -27,7 +27,7 @@ test('autocomplete sorts by score', (t) => {
 
 test('autocomplete limits the number of results', (t) => {
 	t.plan(1)
-	t.equal(autocomplete('statio', 1).length, 1)
+	t.equal(autocomplete('station', 1).length, 1)
 })
 
 test('gives reasonable results', (t) => {
