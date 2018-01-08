@@ -5,7 +5,6 @@ const path = require('path')
 const tokenize = require('vbb-tokenize-station')
 const stations = require('vbb-stations')
 const aliases = require('vbb-common-places').stations
-const buildIndex = require('synchronous-autocomplete/build')
 
 const showError = (err) => {
 	if (!err) return
@@ -17,24 +16,18 @@ const writeJSON = (file, data, cb) => {
 	fs.writeFile(path.join(__dirname, file), JSON.stringify(data), cb)
 }
 
-const idGenerator = () => {
-	let i = 1
-	return () => (i++).toString(36)
-}
 
 
-
-console.info('building a search index')
+console.info('Collecting search items.')
 
 // we map the IDs to get smaller file sizes
-const originalIds = Object.create(null)
-const generateNewId = idGenerator()
+const originalIds = []
+let currentId = 0
 
 const items = []
 
-let currentId = 0
 for (let station of stations('all')) {
-	const newId = generateNewId()
+	const newId = currentId++
 	originalIds[newId] = station.id
 
 	items.push({
@@ -52,7 +45,7 @@ for (let alias in aliases) {
 		continue
 	}
 
-	const newId = generateNewId()
+	const newId = currentId++
 	originalIds[newId] = originalId
 
 	items.push({
@@ -62,7 +55,30 @@ for (let alias in aliases) {
 	})
 }
 
-const {tokens, scores, weights, nrOfTokens} = buildIndex(tokenize, items)
+
+
+console.info('Computing a search index.')
+
+const tokens = Object.create(null)
+const weights = []
+const nrOfTokens = []
+
+for (let item of items) {
+	const tokensOfItem = tokenize(item.name)
+	for (let token of tokensOfItem) {
+		if (!Array.isArray(tokens[token])) tokens[token] = []
+		if (!tokens[token].includes(item.id)) tokens[token].push(item.id)
+	}
+
+	weights[item.id] = item.weight
+	nrOfTokens[item.id] = tokensOfItem.length
+}
+
+const scores = Object.create(null)
+for (let token in tokens) {
+	const nrOfItemsForToken = tokens[token].length
+	scores[token] = nrOfItemsForToken / items.length
+}
 
 
 
