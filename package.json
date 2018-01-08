@@ -5,9 +5,10 @@
 	"main": "index.js",
 	"files": [
 		"index.js",
-		"stations.json",
 		"tokens.json",
-		"scores.json"
+		"scores.json",
+		"weights.json",
+		"nr-of-tokens.json"
 	],
 	"keywords": [
 		"vbb",
