@@ -1,6 +1,6 @@
 # vbb-stations-autocomplete
 
-*vbb-stations-autocomplete* provides a **stations search for the Berlin Brandenburg public transport service (VBB)**. It pulls its data from [`vbb-static`](https://github.com/derhuerst/vbb-static).
+*vbb-stations-autocomplete* provides a **stations search for the Berlin Brandenburg public transport service (VBB)**. It pulls its data from [`vbb-stations`](https://github.com/derhuerst/vbb-stations).
 
 [![npm version](https://img.shields.io/npm/v/vbb-stations-autocomplete.svg)](https://www.npmjs.com/package/vbb-stations-autocomplete)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-stations-autocomplete.svg)](https://travis-ci.org/derhuerst/vbb-stations-autocomplete)
@@ -26,34 +26,22 @@ const autocomplete = require('vbb-stations-autocomplete')
 autocomplete('Seestr', 3)
 ```
 
-This returns stations in the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format).
+This returns stations in a reduced form of the [*Friendly Public Transport Format*](https://github.com/public-transport/friendly-public-transport-format). To get all details, pass each `id` into [`vbb-stations`](https://github.com/derhuerst/vbb-stations).
 
 ```javascript
 [
 	{
-		id: '900000009103',
-		relevance: 2.08113883008419,
-		score: 187.63460439121263,
-		type: 'station',
-		name: 'U Seestr.',
-		weight: 8128.75,
-		tokens: 2
+		id: '900000009103', // U Seestr.
+		relevance: 2.0817557,
+		score: 40.8276194
 	}, {
-		id: '900000009105',
-		relevance: 1.3874258867227933,
-		score: 94.23522862823623,
-		type: 'station',
-		name: 'Seestr./Amrumer Str.',
-		weight: 4613.25,
-		tokens: 3
+		id: '900000009105', // Seestr./Amrumer Str.
+		relevance: 1.0408778,
+		score: 15.7013362
 	}, {
-		id: '900000019103',
-		relevance: 2.08113883008419,
-		score: 74.67490370756026,
-		type: 'station',
-		name: 'Seestr./Beusselstr.',
-		weight: 1287.5,
-		tokens: 2
+		id: '900000019103', // Seestr./Beusselstr.
+		relevance: 1.3878371,
+		score: 12.3226614
 	}
 ]
 ```
@@ -62,16 +50,16 @@ If you set `fuzzy` to `true`, words with a [Levenshtein distance](https://en.wik
 
 test | performance
 -----|------------
-non-fuzzy – `U mehringdamm` | 294 ops/sec
-fuzzy – `U mehrigndamm` | 85.85 ops/sec
+non-fuzzy – `U mehringdamm` | 325 ops/sec
+fuzzy – `U mehrigndamm` | 73 ops/sec
 
 
-Setting `completion` to `false` speeds things up slightly:
+Setting `completion` to `false` speeds things up a lot:
 
 test | performance
 -----|------------
-completion – `U friedr` | 281 ops/sec
-no completion – `U friedr` | 432 ops/sec
+completion – `U friedr` | 306 ops/sec
+no completion – `U friedr` | 5076 ops/sec
 
 ## Contributing
 
