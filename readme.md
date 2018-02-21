@@ -2,6 +2,8 @@
 
 *vbb-stations-autocomplete* provides a **stations search for the Berlin Brandenburg public transport service (VBB)**. It pulls its data from [`vbb-stations`](https://github.com/derhuerst/vbb-stations).
 
+*Note*: Because there are ~ `13k` stations, this module contains ~ `800k` of data (~ `240k` gzipped).
+
 [![npm version](https://img.shields.io/npm/v/vbb-stations-autocomplete.svg)](https://www.npmjs.com/package/vbb-stations-autocomplete)
 [![build status](https://img.shields.io/travis/derhuerst/vbb-stations-autocomplete.svg)](https://travis-ci.org/derhuerst/vbb-stations-autocomplete)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/vbb-stations-autocomplete.svg)

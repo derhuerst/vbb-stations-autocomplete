@@ -16,6 +16,8 @@ const writeJSON = (file, data, cb) => {
 	fs.writeFile(path.join(__dirname, file), JSON.stringify(data), cb)
 }
 
+const roundTo = (v, p) => parseFloat(v.toFixed(p))
+
 
 
 console.info('Collecting search items.')
@@ -77,7 +79,8 @@ for (let item of items) {
 const scores = Object.create(null)
 for (let token in tokens) {
 	const nrOfItemsForToken = tokens[token].length
-	scores[token] = nrOfItemsForToken / items.length
+	const score = nrOfItemsForToken / items.length
+	scores[token] = roundTo(score, 6 - Math.log10(score) | 0)
 }
 
 
