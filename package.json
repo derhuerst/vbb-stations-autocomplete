@@ -1,7 +1,7 @@
 {
 	"name": "vbb-stations-autocomplete",
 	"description": "Search for stations of VBB.",
-	"version": "3.2.0",
+	"version": "3.3.0",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -28,7 +28,7 @@
 		"node": ">=6"
 	},
 	"dependencies": {
-		"synchronous-autocomplete": "^2.0.0",
+		"synchronous-autocomplete": "^2.1.0",
 		"vbb-tokenize-station": "^0.3.0"
 	},
 	"devDependencies": {
