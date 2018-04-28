@@ -1,7 +1,7 @@
 {
 	"name": "vbb-stations-autocomplete",
 	"description": "Search for stations of VBB.",
-	"version": "3.3.0",
+	"version": "3.4.0",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -38,7 +38,7 @@
 		"tap-min": "^1.2.1",
 		"tape": "^4.6.3",
 		"vbb-common-places": "^1.1.0",
-		"vbb-stations": "^6.2.1"
+		"vbb-stations": "^6.4.0"
 	},
 	"scripts": {
 		"build": "node ./build.js",
