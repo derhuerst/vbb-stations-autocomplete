@@ -19,6 +19,7 @@ const suggest = (input) => {
 		choices.push({
 			title: [
 				station.name,
+				'–',
 				'score:', result.score.toFixed(3),
 				'relevance:', result.relevance.toFixed(3)
 			].join(' '),
