@@ -5,6 +5,7 @@ const path = require('path')
 const tokenize = require('vbb-tokenize-station')
 const stations = require('vbb-stations')
 const aliases = require('vbb-common-places').stations
+const buildIndex = require('synchronous-autocomplete/build')
 
 const showError = (err) => {
 	if (!err) return
@@ -16,42 +17,27 @@ const writeJSON = (file, data, cb) => {
 	fs.writeFile(path.join(__dirname, file), JSON.stringify(data), cb)
 }
 
-const roundTo = (v, p) => parseFloat(v.toFixed(p))
-
 
 
 console.info('Collecting search items.')
 
-// we map the IDs to get smaller file sizes
-const originalIds = []
-let currentId = 0
+const items = stations('all').map((station) => ({
+	id: station.id,
+	name: station.name,
+	weight: station.weight
+}))
 
-const items = []
+for (const alias of Object.keys(aliases)) {
+	const id = aliases[alias]
 
-for (let station of stations('all')) {
-	const newId = currentId++
-	originalIds[newId] = station.id
-
-	items.push({
-		id: newId,
-		name: station.name,
-		weight: station.weight
-	})
-}
-
-for (let alias in aliases) {
-	const originalId = aliases[alias]
-	const station = stations(originalId)[0]
+	const [station] = stations(id)
 	if (!station) {
-		console.error(`Alias "${alias}" for unknown station ${originalId}.`)
+		console.error(`Alias "${alias}" for unknown station ${id}.`)
 		continue
 	}
 
-	const newId = currentId++
-	originalIds[newId] = originalId
-
 	items.push({
-		id: newId,
+		id: station.id,
 		name: alias,
 		weight: Math.ceil(station.weight / 2)
 	})
@@ -61,27 +47,9 @@ for (let alias in aliases) {
 
 console.info('Computing a search index.')
 
-const tokens = Object.create(null)
-const weights = []
-const nrOfTokens = []
-
-for (let item of items) {
-	const tokensOfItem = tokenize(item.name)
-	for (let token of tokensOfItem) {
-		if (!Array.isArray(tokens[token])) tokens[token] = []
-		if (!tokens[token].includes(item.id)) tokens[token].push(item.id)
-	}
-
-	weights[item.id] = item.weight
-	nrOfTokens[item.id] = tokensOfItem.length
-}
-
-const scores = Object.create(null)
-for (let token in tokens) {
-	const nrOfItemsForToken = tokens[token].length
-	const score = nrOfItemsForToken / items.length
-	scores[token] = roundTo(score, 6 - Math.log10(score) | 0)
-}
+const {
+	tokens, scores, weights, nrOfTokens, originalIds
+} = buildIndex(tokenize, items)
 
 
 
