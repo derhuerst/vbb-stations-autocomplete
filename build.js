@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const tokenize = require('vbb-tokenize-station')
 const stations = require('vbb-stations')
-const aliases = require('vbb-common-places').stations
+const aliases = require('vbb-common-places/stations')
 const buildIndex = require('synchronous-autocomplete/build')
 
 const showError = (err) => {
@@ -16,8 +16,6 @@ const showError = (err) => {
 const writeJSON = (file, data, cb) => {
 	fs.writeFile(path.join(__dirname, file), JSON.stringify(data), cb)
 }
-
-
 
 console.info('Collecting search items.')
 
@@ -43,15 +41,11 @@ for (const alias of Object.keys(aliases)) {
 	})
 }
 
-
-
 console.info('Computing a search index.')
 
 const {
 	tokens, scores, weights, nrOfTokens, originalIds
 } = buildIndex(tokenize, items)
-
-
 
 console.info('Writing the index to disk.')
 
