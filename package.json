@@ -38,7 +38,7 @@
 		"tap-min": "^2.0.0",
 		"tape": "^4.6.3",
 		"vbb-common-places": "^1.1.0",
-		"vbb-stations": "^7.0.0"
+		"vbb-stations": "7.0.0"
 	},
 	"scripts": {
 		"build": "node ./build.js",
