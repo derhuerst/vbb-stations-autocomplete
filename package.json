@@ -33,7 +33,7 @@
 	},
 	"devDependencies": {
 		"benchmark": "^2.1.3",
-		"cli-autocomplete": "^0.4.1",
+		"cli-autocomplete": "0.4.1",
 		"lodash.sortby": "^4.7.0",
 		"tap-min": "^2.0.0",
 		"tape": "^4.6.3",
