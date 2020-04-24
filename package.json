@@ -36,7 +36,7 @@
 		"cli-autocomplete": "^0.4.1",
 		"lodash.sortby": "^4.7.0",
 		"tap-min": "^2.0.0",
-		"tape": "^4.6.3",
+		"tape": "^5.0.0",
 		"vbb-common-places": "^1.1.0",
 		"vbb-stations": "^7.0.0"
 	},
