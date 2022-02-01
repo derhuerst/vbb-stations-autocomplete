@@ -33,19 +33,19 @@ test('autocomplete limits the number of results', (t) => {
 test('gives reasonable results', (t) => {
 	const r0 = autocomplete('U Seestr.', 1)[0]
 	t.ok(r0)
-	t.equal((r0 || {}).id, '900000009103')
+	t.equal((r0 || {}).id, '900000009103')
 
 	const r1 = autocomplete('S Heerstr.', 1)[0]
 	t.ok(r1)
-	t.equal((r1 || {}).id, '900000026105')
+	t.equal((r1 || {}).id, '900000026105')
 
 	const r2 = autocomplete('kotti', 1, true)[0]
 	t.ok(r2)
-	t.equal((r2 || {}).id, '900000013102')
+	t.equal((r2 || {}).id, '900000013102')
 
 	const r3 = autocomplete('S+U Alexanderplatz', 1, true, false)[0]
 	t.ok(r3)
-	t.equal((r3 || {}).id, '900000100003')
+	t.equal((r3 || {}).id, '900000100003')
 
 	t.end()
 })
