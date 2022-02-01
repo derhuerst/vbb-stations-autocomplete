@@ -25,7 +25,7 @@
 	"repository": "git://github.com/derhuerst/vbb-stations-autocomplete.git",
 	"license": "ISC",
 	"engines": {
-		"node": ">=8"
+		"node": ">=16"
 	},
 	"dependencies": {
 		"synchronous-autocomplete": "^2.3.0",
@@ -38,7 +38,7 @@
 		"tap-min": "^2.0.0",
 		"tape": "^5.0.0",
 		"vbb-common-places": "^1.1.0",
-		"vbb-stations": "^7.0.0"
+		"vbb-stations": "^8.0.0"
 	},
 	"scripts": {
 		"build": "node ./build.js",
