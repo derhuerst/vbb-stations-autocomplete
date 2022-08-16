@@ -5,6 +5,8 @@ const sortBy = require('lodash.sortby')
 
 const autocomplete = require('.')
 
+const uMehringdamm = 'de:11000:900017101'
+
 test('autocomplete returns an array', (t) => {
 	t.plan(2)
 	t.ok(Array.isArray(autocomplete('', 3)))
@@ -46,6 +48,13 @@ test('gives reasonable results', (t) => {
 	const r3 = autocomplete('S+U Alexanderplatz', 1, true, false)[0]
 	t.ok(r3)
 	t.equal((r3 || {}).id, 'de:11000:900100003')
+
+	t.end()
+})
+
+test('gives results with "mehringd"', (t) => {
+	const r0 = autocomplete('mehringd')
+	t.ok(r0.some(r => r.id === uMehringdamm), `results include ${uMehringdamm} (U Mehringdamm)`)
 
 	t.end()
 })
