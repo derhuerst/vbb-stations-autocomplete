@@ -28,6 +28,7 @@
 		"node": ">=16"
 	},
 	"dependencies": {
+		"normalize-vbb-station-name-for-search": "^1.0.1",
 		"synchronous-autocomplete": "^2.3.0",
 		"vbb-tokenize-station": "^0.3.0"
 	},
