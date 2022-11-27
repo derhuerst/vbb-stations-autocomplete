@@ -19,7 +19,10 @@ const writeJSON = (file, data, cb) => {
 
 console.info('Collecting search items.')
 
-const items = stations('all').map((station) => ({
+const items = stations('all')
+// https://github.com/mfdz/GTFS-Issues/issues/98
+.filter(station => !/^VERWAIST: /.test(station.name))
+.map((station) => ({
 	id: station.id,
 	name: station.name,
 	weight: station.weight
