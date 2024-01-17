@@ -2,7 +2,7 @@
 
 const fs = require('fs')
 const path = require('path')
-const {tokenize} = require('.')
+const tokenize = require('./lib/tokenize')
 const stations = require('vbb-stations')
 const aliases = require('vbb-common-places/stations')
 const buildIndex = require('synchronous-autocomplete/build')
