@@ -9,7 +9,8 @@
 		"tokens.json",
 		"scores.json",
 		"weights.json",
-		"nr-of-tokens.json"
+		"nr-of-tokens.json",
+		"lib"
 	],
 	"keywords": [
 		"vbb",
