@@ -4,6 +4,10 @@ on:
   schedule:
     # 10th of the month, at 14:11
     - cron: '11 14 10 * *'
+  push:
+    branches:
+      # todo: remove
+      - 'debug-ci'
 
 permissions:
   id-token: write # for OIDC-based publishing to npm
@@ -14,7 +18,7 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - '22'
+          - '24'
 
     steps:
     - name: checkout
@@ -23,9 +27,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-    # for OIDC-based publishing to npm
-    - name: setup npm v11
-      run: npm install -g npm@11
 
     - run: npm install
 
